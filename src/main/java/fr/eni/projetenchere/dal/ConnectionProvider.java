@@ -18,7 +18,7 @@ abstract class ConnectionProvider {
 	 */
 	static
 	{
-		Context context;
+		Context context ;
 		try {
 			context = new InitialContext();
 			ConnectionProvider.dataSource = (DataSource)context.lookup("java:comp/env/jdbc/pool_cnx");

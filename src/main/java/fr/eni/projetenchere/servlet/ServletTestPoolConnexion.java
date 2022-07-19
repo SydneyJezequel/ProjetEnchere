@@ -45,7 +45,7 @@ public class ServletTestPoolConnexion extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out= response.getWriter();
 		//Création d'un objet de type Context permettant la recherche d'une ressource nommée dans l'arbre JNDI
-		try {
+		try  {
 			Context context = new InitialContext();
 			//Recherche de la ressource
 			DataSource dataSource = (DataSource)context.lookup("java:comp/env/jdbc/pool_cnx");

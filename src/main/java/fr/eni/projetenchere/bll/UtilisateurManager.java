@@ -5,7 +5,7 @@ import fr.eni.projetenchere.dal.DAOFactory;
 
 
 
-public class UtilisateurManager {
+public class  UtilisateurManager {
 
 
 	// Attribut :

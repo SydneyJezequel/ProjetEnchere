@@ -1,6 +1,6 @@
 package fr.eni.projetenchere.bo;
 
-public class Utilisateur {
+public class Utilisateur  {
 	
 	
 	// Attributs :
