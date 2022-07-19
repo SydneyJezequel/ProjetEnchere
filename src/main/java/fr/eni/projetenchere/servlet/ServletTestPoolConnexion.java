@@ -20,8 +20,14 @@ import javax.sql.DataSource;
 /**
  * Servlet implementation class ServletTestPoolConnexion
  */
+
 @WebServlet("/ServletTestPoolConnexion")
+
+
 public class ServletTestPoolConnexion extends HttpServlet {
+
+	
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -31,6 +37,8 @@ public class ServletTestPoolConnexion extends HttpServlet {
         super();
     }
 
+    
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -55,6 +63,8 @@ public class ServletTestPoolConnexion extends HttpServlet {
 		out.close();
 	}
 
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -62,4 +72,6 @@ public class ServletTestPoolConnexion extends HttpServlet {
 		doGet(request, response);
 	}
 
+	
+	
 }
