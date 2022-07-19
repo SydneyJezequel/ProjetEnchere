@@ -12,7 +12,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
 	
 	// Requêtes paramétrées :
-	private static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
+	private static final String  SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
 	
 	
 	
