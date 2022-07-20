@@ -10,8 +10,8 @@ public class  UtilisateurManager {
 
 	
 	// Attribut :
-    private static UtilisateurManager instance;
-
+    private static UtilisateurManager  instance;
+    private String coincoin;
    
     
     // Constructeur :
@@ -58,7 +58,7 @@ public class  UtilisateurManager {
 	}
     	
 
-    
+    // Mettre à jour l'utilisateur
     
     
     
