@@ -6,7 +6,8 @@ public interface UtilisateurDAO {
 
 	
 	public Utilisateur selectUtilisateurById(int id);
-	
+
+	public Utilisateur selectUtilisateurByPseudo(String pseudo);
 	
 	
 
