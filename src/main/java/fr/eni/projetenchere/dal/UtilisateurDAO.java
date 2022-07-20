@@ -9,6 +9,7 @@ public interface UtilisateurDAO {
 
 	public Utilisateur selectUtilisateurByPseudo(String pseudo);
 	
+	public void update(Utilisateur utilisateur) throws Exception;
 	
 
 }
