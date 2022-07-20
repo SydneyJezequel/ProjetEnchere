@@ -14,14 +14,18 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 	// Requêtes paramétrées :
 	private static final String  SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
 	private static final String  SELECT_BY_NAME = "SELECT * FROM UTILISATEURS WHERE pseudo = ?";
-	
+	private static final String UPDATEUTILISATEURS = "UPDATE UTILISATEURS SET pseudo = ? , nom= ? , prenom = ? , email = ? , telephone = ? , rue = ? , code_postal = ? , ville = ? , mot_de_passe = ? , credit = ? , administrateur = ? WHERE no_utilisateur = ?"; 
 	
 	// Constructeurs :
 	public UtilisateurDAOJdbcImpl() {}
 	
 	
 	
-	// Méthodes :
+	
+	
+	/*-------------------------------------- METHODES -------------------------------------- */
+	
+	// SELECTBYID :
 	public Utilisateur selectUtilisateurById(int id) {
 		Utilisateur utilisateur = null;
 		try(Connection cnx = ConnectionProvider.getConnection())
@@ -38,8 +42,7 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 		return utilisateur;
 	}
 
-
-	
+	// SELECTBYNAME :
 	public Utilisateur selectUtilisateurByPseudo(String pseudo) {
 		Utilisateur utilisateur = null;
 		try(Connection cnx = ConnectionProvider.getConnection())
@@ -57,9 +60,47 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 	}
 	
 	
+	
+	// UPDATE :
+	public void update(Utilisateur utilisateur) throws Exception {
+
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			try
+			{
+				cnx.setAutoCommit(false);
+				PreparedStatement pstmt = cnx.prepareStatement(UPDATEUTILISATEURS);
+				pstmt.setString(1, utilisateur.getPseudo());
+				pstmt.setString(2, utilisateur.getNom());
+				pstmt.setString(3, utilisateur.getPrenom());
+				pstmt.setString(4, utilisateur.getEmail());
+				pstmt.setString(5, utilisateur.getTelephone());
+				pstmt.setString(6, utilisateur.getRue());
+				pstmt.setString(7, utilisateur.getCodePostal());
+				pstmt.setString(8, utilisateur.getVille());
+				pstmt.setString(9, utilisateur.getMotDePasse());
+				pstmt.setInt(10, utilisateur.getCredit());
+				pstmt.setBoolean(11, utilisateur.isAdministrateur());
+				pstmt.executeUpdate();
+				pstmt.close();
+				cnx.commit();
+			} catch (SQLException e) {
+				throw new Exception("Update Utilisateur failed - " + e);
+				cnx.rollback();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+}
+	
+	
+	
+	
+	
 
 
-
+	// Builder :
 	private Utilisateur map(ResultSet rs) throws SQLException {
 		Utilisateur utilisateur=null;
 		try {
