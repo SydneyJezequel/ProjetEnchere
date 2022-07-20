@@ -1,5 +1,7 @@
 package fr.eni.projetenchere.bll;
 
+import java.sql.SQLException;
+
 import fr.eni.projetenchere.bo.Utilisateur;
 import fr.eni.projetenchere.dal.DAOFactory;
 
@@ -11,15 +13,16 @@ public class  UtilisateurManager {
 	
 	// Attribut :
     private static UtilisateurManager  instance;
-    private String coincoin;
    
-    
+
     // Constructeur :
     private UtilisateurManager() {}
 
     
-    
-    // Singleton :
+    /**
+     * Méthode de type Singleton.
+     * @return Une Instance de la classe UtilisateurManager.
+     */
     public static UtilisateurManager getInstance() {
         if(instance == null) {
              instance = new UtilisateurManager();
@@ -29,14 +32,25 @@ public class  UtilisateurManager {
 
     
     
-    // Méthodes :
-    public Utilisateur getUtilisateurById(int id){
+    /*-------------------------------- Méthodes --------------------------------*/
+    /**
+     * 
+     * @param pseudo
+     * @return
+     * @throws Exception
+     */
+    public Utilisateur getUtilisateurById(int id) throws SQLException{
         return DAOFactory.getUtilisateurDAO().selectUtilisateurById(id);
 	}
     
     
     
-    // Connexion :
+    /**
+     * 
+     * @param pseudo
+     * @return
+     * @throws Exception
+     */
     public boolean Connexion(String pseudo, String mp) throws Exception {
     	boolean ok = false;
     	Utilisateur utilisateur = instance.getUtilisateurByPseudo(pseudo);
@@ -52,13 +66,23 @@ public class  UtilisateurManager {
     
     
     
-    // Récupérer un Utilisateur par id de connexion :
+    /**
+     * 
+     * @param pseudo
+     * @return
+     * @throws Exception
+     */
     public Utilisateur getUtilisateurByPseudo(String pseudo) throws Exception{
         return DAOFactory.getUtilisateurDAO().selectUtilisateurByPseudo(pseudo);
 	}
     	
 
-    // Mettre à jour l'utilisateur
+    /**
+     * 
+     * @param pseudo
+     * @return
+     * @throws Exception
+     */
     
     
     

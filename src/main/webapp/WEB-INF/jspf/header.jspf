@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!-- Author: Styve RIBEIRO -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- connexion avec boostrap et feuille de style -->
+<link href="<%=request.getContextPath() %>/css/bootstrap-3.3.7/dist/css/bootstrap-theme.min.css"
+	rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath() %>/css/bootstrap-3.3.7/dist/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath() %>/css/style.css" rel="stylesheet" type="text/css"/>
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="16x16" href="./images/logo_eni.png">
+
+<title>ENI Enchere</title>
+</head>
+<body class="container-fluid">
+<header class="entete">
+
+<!-- Logo avec lien vers accueil -->
+<a href="<%=request.getContextPath()%>/accueil"><img src="./images/logo_eni_encheres.png" alt="" name="Logo Eni Enchères" class="logo"></a>
+
+

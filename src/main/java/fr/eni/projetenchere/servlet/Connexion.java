@@ -34,7 +34,7 @@ public class Connexion extends HttpServlet  {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/accueil");
+		RequestDispatcher rd = request.getRequestDispatcher("/connexion");
 		rd.forward(request, response);
 	}
 	

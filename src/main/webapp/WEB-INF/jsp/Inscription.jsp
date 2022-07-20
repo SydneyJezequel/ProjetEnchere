@@ -10,7 +10,7 @@
 
 
 
-<h1>Bienvenue sur le site des Enchères </h1>
+<h1> Bienvenue sur le site des Enchères </h1>
 
 <h2>
 Inscription

@@ -19,7 +19,7 @@ Donner une seconde vie à vos objets est positif pour la planète et pour votre 
   
 
 <%  
-if(request.getAttribute("refuse")!=null){
+if (request.getAttribute("refuse")!=null){
 %>
 <p> <%=request.getAttribute("refuse")%> </p>
 <%}%>
@@ -28,9 +28,9 @@ if(request.getAttribute("refuse")!=null){
 
 
 
-<form action="<%=request.getContextPath()%>/connexion" method="post">
+<form action="<%=request.getContextPath()%>/Connexion" method="post">
 	<label>Id : </label><input type="text" name="pseudo" >
-	<label>Mot de passe : </label><input type="text" name="mp" >
+	<label>Mot de passe : </label><input type="password" name="mp" >
 	<input type="submit" value="connecter">
 </form>
 

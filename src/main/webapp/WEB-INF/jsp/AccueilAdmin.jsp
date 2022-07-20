@@ -9,7 +9,7 @@
 <body>
 
 
-<%String nom = (String) session.getAttribute("pseudo");%>
+<%String nom =  (String) session.getAttribute("pseudo");%>
 
 <h1>Bienvenue Monsieur l'Administrateur <%=nom%></h1>
 

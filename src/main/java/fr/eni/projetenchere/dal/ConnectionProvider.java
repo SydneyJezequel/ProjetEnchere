@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 
 abstract class ConnectionProvider {
-	private static DataSource dataSource;
+	private static DataSource  dataSource;
 	
 	/**
 	 * Au chargement de la classe, la DataSource est recherchée dans l'arbre JNDI

@@ -12,12 +12,14 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 	
 	
 	// Requêtes paramétrées :
-	private static final String  SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
-	private static final String  SELECT_BY_NAME = "SELECT * FROM UTILISATEURS WHERE pseudo = ?";
+	private static final String SELECT_BY_ID = "SELECT pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur FROM UTILISATEURS WHERE no_utilisateur = ?";
+	private static final String SELECT_BY_NAME = "SELECT pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur FROM UTILISATEURS WHERE pseudo = ?";
 	private static final String UPDATEUTILISATEURS = "UPDATE UTILISATEURS SET pseudo = ? , nom= ? , prenom = ? , email = ? , telephone = ? , rue = ? , code_postal = ? , ville = ? , mot_de_passe = ? , credit = ? , administrateur = ? WHERE no_utilisateur = ?"; 
+	/*Indiquer le nom des colonnes.*/
 	
-	// Constructeurs :
-	public UtilisateurDAOJdbcImpl() {}
+	
+	
+
 	
 	
 	
@@ -25,25 +27,37 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 	
 	/*-------------------------------------- METHODES -------------------------------------- */
 	
-	// SELECTBYID :
-	public Utilisateur selectUtilisateurById(int id) {
+	/**
+	 * @throws SQLException : Propagation d'une erreur de type SQLException.
+	 * selectUtilisateurById(int id) sélectionne un Utilisateur par son Identifiant.
+	 * La méthode se connecte à la BDD, exécute la requête paramétrée SEELECT_BY_ID, récupère les données sélectionnée en s'appuyant sur la méthode "map(rs)".
+	 * 
+	 */
+	public Utilisateur selectUtilisateurById(int id) throws SQLException {
 		Utilisateur utilisateur = null;
-		try(Connection cnx = ConnectionProvider.getConnection())
-		{
-			PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ID);
+		Connection cnx = null;
+		PreparedStatement pstmt=null;
+		cnx = ConnectionProvider.getConnection();
+		try{
+			pstmt = cnx.prepareStatement(SELECT_BY_ID);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				utilisateur = map(rs);
 			}
-		} catch(Exception e) {
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		return utilisateur;
 	}
 
-	// SELECTBYNAME :
-	public Utilisateur selectUtilisateurByPseudo(String pseudo) {
+	/**
+	 * @throws SQLException : Propagation d'une erreur de type SQLException.
+	 * selectUtilisateurById(int id) sélectionne un Utilisateur par son Pseudo.
+	 * La méthode se connecte à la BDD, exécute la requête paramétrée SELECT_BY_NAME, récupère les données sélectionnée en s'appuyant sur la méthode "map(rs)".
+	 * 
+	 */
+	public Utilisateur selectUtilisateurByPseudo(String pseudo) throws SQLException {
 		Utilisateur utilisateur = null;
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
@@ -53,7 +67,7 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 			if(rs.next()) {
 				utilisateur = map(rs);
 			}
-		} catch(Exception e) {
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		return utilisateur;
@@ -61,8 +75,14 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 	
 	
 	
-	// UPDATE :
-	public void update(Utilisateur utilisateur) throws Exception {
+	/**
+	 * @throws SQLException : Propagation d'une erreur de type SQLException.
+	 * update(Utilisateur utilisateur) met à jour les données d'un Utilisateur dans la BDD.
+	 * La méthode se connecte à la BDD, exécute la requête paramétrée UPDATEUTILISATEURS. Elle utilise un Commit pour valider la mise à jour des données dans la BDD.
+	 * 
+	 */
+	/*
+	public void update(Utilisateur utilisateur) throws SQLException {
 
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
@@ -93,14 +113,19 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 			throw e;
 		}
 }
-	
+*/	
 	
 	
 	
 	
 
 
-	// Builder :
+	/**
+	 * 
+	 * @param rs récupère les données extraites de la BDD.
+	 * @return l'Utilisateur généré.
+	 * @throws SQLException permet de propager l'erreur SQL aux méthodes qui appellent map(Resultset rs).
+	 */
 	private Utilisateur map(ResultSet rs) throws SQLException {
 		Utilisateur utilisateur=null;
 		try {
@@ -121,6 +146,12 @@ public class UtilisateurDAOJdbcImpl  implements UtilisateurDAO {
 			e.printStackTrace();
 		}
 		return utilisateur;
+	}
+
+	@Override
+	public void update(Utilisateur utilisateur) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

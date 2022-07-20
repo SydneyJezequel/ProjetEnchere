@@ -1,9 +1,19 @@
 package fr.eni.projetenchere.bo;
 
-public class Utilisateur  {
+import java.io.Serializable;
+
+/**
+ * Javabean permettant d'instancier un objet de type Utilisateur.
+ * @author sjezequel
+ *
+ */
+public class Utilisateur implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	
-	// Attributs :
+	/**
+	 * Attributs d'un objet de type Utilisateur.
+	 */
 	private int noUtilisateur;
 	private String pseudo;
 	private String nom; 
@@ -18,41 +28,46 @@ public class Utilisateur  {
 	private boolean administrateur;
 	
 	
-	// Constructeurs :
+	/**
+	 * Constructeurs :
+	 * Premier constructeur : Constructeur par défaut.
+	 * Deuxième constructeur : Constructeur pour insérer un Utilisateur en BDD.
+	 * Troisième constructeur : Constructeur pour extraire un Utilisateur de la BDD.
+	 */
 	public Utilisateur() {}
 	
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
-		this();
-		this.pseudo = pseudo;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.email = email;
-		this.telephone = telephone;
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.motDePasse = motDePasse;
-		this.credit = credit;
-		this.administrateur = administrateur;
+		setPseudo(pseudo);
+		setNom(nom);
+		setPrenom(prenom);
+		setEmail(email);
+		setTelephone(telephone);
+		setRue(rue);
+		setCodePostal(codePostal);
+		setVille(ville);
+		setMotDePasse(motDePasse);
+		setCredit(credit);
+		setAdministrateur(administrateur);
 	}
 	
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
-		this();
-		this.noUtilisateur = noUtilisateur;
-		this.pseudo = pseudo;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.email = email;
-		this.telephone = telephone;
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.motDePasse = motDePasse;
-		this.credit = credit;
-		this.administrateur = administrateur;
+		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit, administrateur);
+		setNoUtilisateur(noUtilisateur);
 	}
+	
+	
+	
+	//Autre méthode :
+	public String toString() {
+		return "Utilisateur [noUtilisateur=" + getNoUtilisateur() + ", pseudo=" + getPseudo() + ", nom=" + getNom() + ", prenom="
+				+ getPrenom() + ", email=" + getEmail() + ", telephone=" + getTelephone() + ", rue=" + getRue() + ", codePostal="
+				+ getCodePostal() + ", ville=" + getVille() + ", motDePasse=" + getMotDePasse() + ", credit=" + getCredit()
+				+ ", administrateur=" + isAdministrateur() + "]";
+	}
+	
+	
 	
 	
 	
@@ -60,8 +75,6 @@ public class Utilisateur  {
 	public int getNoUtilisateur() {
 		return noUtilisateur;
 	}
-
-
 	public void setNoUtilisateur(int noUtilisateur) {
 		this.noUtilisateur = noUtilisateur;
 	}
@@ -131,24 +144,6 @@ public class Utilisateur  {
 	public void setAdministrateur(boolean administrateur) {
 		this.administrateur = administrateur;
 	}
-	
-	
-	//To String :
-	@Override
-	public String toString() {
-		return "Utilisateur [noUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
-				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal="
-				+ codePostal + ", ville=" + ville + ", motDePasse=" + motDePasse + ", credit=" + credit
-				+ ", administrateur=" + administrateur + "]";
-	}
-	
-	
-	
-
-	
-	
-	
-	
 	
 	
 

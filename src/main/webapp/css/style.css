@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.logo{
+	width: 8%;
+	height: 8%;
+	margin: 10px;
+}
+.filtre{
+	font-weight: bold;
+}
+.bouton{
+	padding: 1.5em 15em;
+	font-weight: bold;
+}
+.entete{
+	background-color: #87CEEB
+}
+
+.bloc-article{ 
+	border : 1px solid;
+	border-color:#808080;
+	border-radius: 8px;
+	padding: 20px;
+	box-shadow: 3px 3px 15px #aaa;
+	margin-left: 6em;
+	margin-right: 4em;
+	margin-top : 2em;
+	
+}
+.media{
+	
+    width: 200px;
+    height: 130px;
+    border: 1px solid black;
+	
+}
