@@ -16,7 +16,10 @@
 	</welcome-file-list>
 
 
-
+	<!-- Gestion de la session -->
+    <session-config> 
+        <session-timeout>10</session-timeout>
+    </session-config>
 
 
 	<!-- Servlets -->
@@ -35,7 +38,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ModifierProfil</servlet-name>
-		<url-pattern> /modifierprofil</url-pattern>
+		<url-pattern>/modifierprofil</url-pattern>
 	</servlet-mapping>
 
 
@@ -44,7 +47,6 @@
 
 
 	<!-- Jsp -->
-
 	<servlet>
 		<description>Accueil</description>
 		<servlet-name>Accueil</servlet-name>
@@ -90,16 +92,6 @@
 	<servlet-mapping>
 		<servlet-name>Inscription</servlet-name>
 		<url-pattern>/sinscrire</url-pattern>
-	</servlet-mapping>
-
-
-	<servlet>
-		<servlet-name>Test</servlet-name>
-		<jsp-file>/WEB-INF/jsp/Test.jsp</jsp-file>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Test</servlet-name>
-		<url-pattern>/test</url-pattern>
 	</servlet-mapping>
 
 
