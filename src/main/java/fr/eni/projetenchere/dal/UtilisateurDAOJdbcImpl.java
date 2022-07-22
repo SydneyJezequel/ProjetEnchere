@@ -166,7 +166,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	
-	
+	/*
 	public void ajouterUtilisateur(Utilisateur utilisateur) throws BusinessException, SQLException {
         if(utilisateur==null)
         {
@@ -221,7 +221,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             throw businessException;
 
         }
-	
+	*/
 	
 
 }
