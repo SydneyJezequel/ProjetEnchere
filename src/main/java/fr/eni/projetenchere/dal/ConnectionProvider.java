@@ -1,6 +1,7 @@
 package fr.eni.projetenchere.dal;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.naming.Context;
@@ -8,37 +9,65 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-
-
 abstract class ConnectionProvider {
-	private static DataSource  dataSource;
-	
+	private static DataSource dataSource;
+
 	/**
 	 * Au chargement de la classe, la DataSource est recherchée dans l'arbre JNDI
 	 */
-	static
-	{
-		Context context ;
+	static {
+		Context context;
 		try {
 			context = new InitialContext();
-			ConnectionProvider.dataSource = (DataSource)context.lookup("java:comp/env/jdbc/pool_cnx");
+			ConnectionProvider.dataSource = (DataSource) context.lookup("java:comp/env/jdbc/pool_cnx");
 		} catch (NamingException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Impossible d'acc�der � la base de donn�es");
 		}
 	}
-	
+
 	/**
-	 * Cette méthode retourne une connection opérationnelle issue du pool de connexion
-	 * vers la base de données. 
+	 * Cette méthode retourne une connection opérationnelle issue du pool de
+	 * connexion vers la base de données.
+	 * 
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Connection getConnection() throws SQLException
-	{
+	public static Connection getConnection() throws SQLException {
 		return ConnectionProvider.dataSource.getConnection();
 	}
-}
 	
-
-
+	
+	/**
+	 * 
+	 * @param cnx
+	 * @throws SQLException
+	 * @throws DALException 
+	 */
+	public static void seDeconnecter(Connection cnx) throws DALException {
+		try {
+			if (cnx!=null) {
+				cnx.close();
+			}
+		} catch (SQLException e) {
+			throw new DALException("Impossible de libérer la connexion", e);
+		}
+	}
+	
+	
+	public static void seDeconnecter(Connection cnx, PreparedStatement pstmt) throws DALException {
+		try {
+			if (pstmt!=null) {
+				pstmt.close();
+			}
+		} catch (SQLException e) {
+			throw new DALException("Impossible de fermer le PreparedStatement", e);
+		}
+		seDeconnecter(cnx);
+	}
+	
+	
+	
+	
+	
+}

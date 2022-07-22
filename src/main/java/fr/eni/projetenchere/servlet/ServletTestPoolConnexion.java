@@ -1,6 +1,5 @@
 package fr.eni.projetenchere.servlet;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -15,45 +14,42 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-
-
 /**
  * Servlet implementation class ServletTestPoolConnexion
  */
 
 @WebServlet("/ServletTestPoolConnexion")
 
-
 public class ServletTestPoolConnexion extends HttpServlet {
 
-	
-	
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletTestPoolConnexion() {
-        super();
-    }
 
-    
-    
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out= response.getWriter();
-		//Création d'un objet de type Context permettant la recherche d'une ressource nommée dans l'arbre JNDI
-		try  {
+	public ServletTestPoolConnexion() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		// Création d'un objet de type Context permettant la recherche d'une ressource
+		// nommée dans l'arbre JNDI
+		try {
 			Context context = new InitialContext();
-			//Recherche de la ressource
-			DataSource dataSource = (DataSource)context.lookup("java:comp/env/jdbc/pool_cnx");
-			//Demande d'une connexion. La méthode getConnection met la demande en attente tant qu'il n'y a pas de connexion disponible
+			// Recherche de la ressource
+			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/pool_cnx");
+			// Demande d'une connexion. La méthode getConnection met la demande en attente
+			// tant qu'il n'y a pas de connexion disponible
 			Connection cnx = dataSource.getConnection();
-			//Exploitation de la connexion
-			out.print("La connexion est "+ (cnx.isClosed()?"fermée":"ouverte")+".");
-			//Libération de la connexion. Elle n'est pas fermée mais remise dans le pool
+			// Exploitation de la connexion
+			out.print("La connexion est " + (cnx.isClosed() ? "fermée" : "ouverte") + ".");
+			// Libération de la connexion. Elle n'est pas fermée mais remise dans le pool
 			cnx.close();
 		} catch (NamingException | SQLException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -63,15 +59,13 @@ public class ServletTestPoolConnexion extends HttpServlet {
 		out.close();
 	}
 
-	
-	
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
-	
-	
 }

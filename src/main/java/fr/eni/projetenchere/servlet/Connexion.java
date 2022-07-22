@@ -17,53 +17,58 @@ import fr.eni.projetenchere.bo.Utilisateur;
  * Servlet implementation class SelectbyId
  */
 
+public class Connexion extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-public class Connexion extends HttpServlet  {
-	private static final long serialVersionUID = 1L ;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Connexion() {
-        super();
-    }
-    
-    
-    // Point d'entrée :
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Connexion() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response) Méthode qui est le point d'entrée de la connexion.
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher("/connexion");
 		rd.forward(request, response);
 	}
-	
-	
 
-	// Connexion (test de connexion, renvoie vers la bonne session ou message d'erreur).
+	// Connexion (test de connexion, renvoie vers la bonne session ou message
+	// d'erreur).
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response) Méthode qui gère la connexion de l'utilisateur.
+	 * @Etapes : Récupère les pseudo et mot de passe renseignés, Vérifie les pseudos
+	 *         et mots de passe, Si pseudos et mots de passe ok : récupère
+	 *         l'utilisateur en BDD et ouvre une session, récupère les identifiants
+	 *         et pseudos de l'utilisateur, renvoie vers une JSP différente si
+	 *         Client ou si Admin.
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String pseudo = request.getParameter("pseudo");
 		String mp = request.getParameter("mp");
 		RequestDispatcher rd = null;
 		try {
-			if(UtilisateurManager.getInstance().Connexion(pseudo, mp) == true) {
-				Utilisateur utilisateur = UtilisateurManager.getInstance().getUtilisateurByPseudo(pseudo);
+			if (UtilisateurManager.getInstance().ControleDeConnexion(pseudo, mp) == true) {
+				Utilisateur utilisateurConnecte = UtilisateurManager.getInstance().getUtilisateurByPseudo(pseudo);
+				String id = (String) utilisateurConnecte.getPseudo();
 				HttpSession session = request.getSession();
-				String id = request.getParameter("pseudo");
-				System.out.println(id);
-				session.setAttribute("pseudo", id);
-				if(utilisateur.isAdministrateur() == true){
+				session.setAttribute("id", id);
+				session.setAttribute("pseudo", pseudo);
+				if (utilisateurConnecte.isAdministrateur() == true) {
 					rd = request.getRequestDispatcher("/administrateur");
 				} else {
-					rd = request.getRequestDispatcher("/utilisateur");	
+					rd = request.getRequestDispatcher("/utilisateur");
 				}
-			}else{ 
+			} else {
 				String non = "Authentification incorrecte";
 				request.setAttribute("refuse", non);
-				rd = request.getRequestDispatcher("/accueil");
+				rd = request.getRequestDispatcher("/connexion");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -72,18 +77,4 @@ public class Connexion extends HttpServlet  {
 		rd.forward(request, response);
 	}
 
-
-	
-	
-	
-	
-	
-	
 }
-
-
-
-
-
-
-

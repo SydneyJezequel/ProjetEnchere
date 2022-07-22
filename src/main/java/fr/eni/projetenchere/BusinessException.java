@@ -42,4 +42,17 @@ public class BusinessException extends Exception {
 		return this.listeCodesErreur;
 	}
 
+	
+
+   
+   
+   
+   
+   
+	
+	
+	
+	
+	
+	
 }

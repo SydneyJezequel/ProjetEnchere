@@ -1,9 +1,10 @@
 package fr.eni.projetenchere.dal;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import fr.eni.projetenchere.bll.UtilisateurManager;
 import fr.eni.projetenchere.bo.Utilisateur;
-
 
 /**
  * 
@@ -14,27 +15,47 @@ import fr.eni.projetenchere.bo.Utilisateur;
 public interface UtilisateurDAO {
 
 	/**
+	 * Méthode sélectionnant un Utilisateur par son Identifiant.
 	 * 
 	 * @param id : Identifiant Utilisateur.
 	 * @return Une instance de type Utilisateur.
-	 * @throws SQLException propage l'exception SQL aux méthdodes qui appellent cette méthode.
+	 * @throws SQLException propage l'exception SQL aux méthdodes qui appellent
+	 *                      cette méthode.
 	 */
 	public Utilisateur selectUtilisateurById(int id) throws SQLException;
 
 	/**
+	 * Méthode sélectionnant qui renvoie un Utilisateur identifié par son attribut
+	 * Pseudo.
 	 * 
 	 * @param pseudo : Pseudo Utilisateur.
 	 * @return Une instance de type Utilisateur.
-	 * @throws SQLException propage l'exception SQL aux méthdodes qui appellent cette méthode.
+	 * @throws SQLException propage l'exception SQL aux méthdodes qui appellent
+	 *                      cette méthode.
 	 */
 	public Utilisateur selectUtilisateurByPseudo(String pseudo) throws SQLException;
-	
+
 	/**
+	 * Méthode mettant à jour un Utilisateur en BDD.
 	 * 
 	 * @param utilisateur est une instance de type Utilisateur.
-	 * @throws SQLException propage l'exception SQL aux méthdodes qui appellent cette méthode.
+	 * @throws Exception propage l'exception aux méthdodes qui appellent cette
+	 *                   méthode.
 	 */
-	public void update(Utilisateur utilisateur) throws SQLException;
+	public void updateUtilisateur(Utilisateur utilisateur) throws SQLException, DALException;
+
+	/*
+	 * Méthode renvoyant tous les utilisateurs de la BDD.
+	 * 
+	 * @throws SQLException propage l'exception SQL aux méthdodes qui appellent
+	 * cette méthode.
+	 */
+	public List<Utilisateur> selectAll() throws SQLException;
+
 	
+	/*
+	 * 
+	 */
+	public void ajouterUtilisateur(Utilisateur newUtilisateur);
 
 }

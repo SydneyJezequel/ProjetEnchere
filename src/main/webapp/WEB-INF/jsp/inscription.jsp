@@ -1,6 +1,6 @@
 <%@page import="fr.eni.projetenchere.messages.LecteurMessage"%>
 <%@page import="java.util.List"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -83,6 +83,10 @@
 			display:inline;
 			outline:solid #A23;
 		}
+		.requis{
+			color:#C00;
+			
+		}
 
 
 </style>
@@ -95,7 +99,7 @@
 	<br>
 	<div class="formulaire">
 	
-		<%
+ 		<%
 			List<Integer> listeCodesErreur = (List<Integer>)request.getAttribute("listeCodesErreur");
 			if(listeCodesErreur!=null)
 			{
@@ -110,19 +114,37 @@
 				}
 			}
 		%>
+		
+<%-- 		<c:if test="${!empty=(String)listeCodesErreur }">
+			<p>
+				pas vide
+			</p>
+		
+		
+		</c:if>
+		
+		<c:if test="${empty=listeCodesErreur }">
+			<p>
+				vide
+			</p>
+		
+		
+		</c:if>
+		 --%>
 	
-		<form action="<%=request.getContextPath()%>/ServletInscription" method="POST">
+		<form action="${pageContext.servletContext.contextPath}/ServletInscription" method="POST">
+<%-- 		<form action="<%=request.getContextPath()%>/ServletInscription" method="POST"> --%>
 			<div class="champs-gauche">
-				<label for="pseudo">Pseudo :</label>
+				<label for="pseudo">Pseudo : <span class="requis">*</span></label>
 				<input type="text" name="pseudo" value="pseudo"/>
 				<br>
-				<label for="prenom">Prénom :</label>
+				<label for="prenom">Prénom : <span class="requis">*</span></label>
 				<input type="text" name="prenom" value="prenom"/>
 				<br>
 				<label for="telephone">Téléphone :</label>
-				<input type="text" name="telephone" value="telephone"/>
+				<input type="text" name="telephone" value="0123456789"/>
 				<br>
-				<label for="code_postal">Code postal :</label>
+				<label for="code_postal">Code postal : <span class="requis">*</span></label>
 				<input type="text" name="code_postal" value="12345"/>
 				<br>
 				<label for="mdp">Mot de passe :</label>
@@ -131,16 +153,16 @@
 			</div>
 			<div class="champs-droite">
 			
-				<label for="nom">Nom :</label>
-				<input type="text" name="nom" value="nom"/>
+				<label for="nom">Nom : <span class="requis">*</span></label>
+				<input type="text" name="nom" value="nomtest"/>
 				<br>
-				<label for="email">Email :</label>
-				<input type="text" name="email" value="email"/>
+				<label for="email">Email : <span class="requis">*</span></label>
+				<input type="text" name="email" value="email@email.com"/>
 				<br>
-				<label for="rue">Rue :</label>
+				<label for="rue">Rue : <span class="requis">*</span></label>
 				<input type="text" name="rue" value="rue"/>
 				<br>
-				<label for="ville">Ville :</label>
+				<label for="ville">Ville : <span class="requis">*</span></label>
 				<input type="text" name="ville" value="ville"/>
 				<br>
 				<label for="confirmation">Confirmation :</label>
