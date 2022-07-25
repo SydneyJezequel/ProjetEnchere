@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.projetenchere.BusinessException;
 import fr.eni.projetenchere.bo.Utilisateur;
+import fr.eni.projetenchere.dal.DALException;
 import fr.eni.projetenchere.dal.DAOFactory;
 
 public class UtilisateurManager {
@@ -119,128 +121,150 @@ public class UtilisateurManager {
 	 *                   UtilisateurDAOJdbcImpl.
 	 */
 	public void updateUtilisateur(Utilisateur utilisateur) throws Exception {
-		Utilisateur utilisateurBDD = UtilisateurManager.getInstance()
-				.getUtilisateurById(utilisateur.getNoUtilisateur());
+		Utilisateur utilisateurBDD = UtilisateurManager.getInstance().getUtilisateurById(utilisateur.getNoUtilisateur());
+		/* Afficher les valeurs par défaut - Debut - */
+		HttpServletRequest request=null;
+		HttpSession session = request.getSession(true);
+		session.setAttribute("utilisateur", utilisateurBDD);
+		/* Afficher les valeurs par défaut - Fin - */
 		int id = utilisateurBDD.getNoUtilisateur();
-		String pseudo = null;
-		String nom = null;
-		String prenom = null;
-		String email = null;
-		String telephone = null;
-		String rue = null;
-		String code_postal = null;
-		String ville = null;
-		String mp = null;
-		if (utilisateur.getPseudo() == null) {
+		String pseudo = utilisateur.getPseudo();
+		String nom = utilisateur.getNom();
+		String prenom = utilisateur.getPrenom();
+		String email = utilisateur.getEmail();
+		String telephone = utilisateur.getTelephone();
+		String rue = utilisateur.getRue();
+		String code_postal = utilisateur.getCodePostal();
+		String ville = utilisateur.getVille();
+		String mp = utilisateur.getMotDePasse();
+		if (utilisateur.getPseudo().isEmpty()) {
 			pseudo = utilisateurBDD.getPseudo();
 		}
-		if (utilisateur.getNom() == null) {
+		if (utilisateur.getNom().isEmpty()) {
 			nom = utilisateurBDD.getNom();
 		}
-		if (utilisateur.getPrenom() == null) {
+		if (utilisateur.getPrenom().isEmpty()) {
 			prenom = utilisateurBDD.getPrenom();
 		}
-		if (utilisateur.getEmail() == null) {
+		if (utilisateur.getEmail().isEmpty()) {
 			email = utilisateurBDD.getEmail();
 		}
-		if (utilisateur.getTelephone() == null) {
+		if (utilisateur.getTelephone().isEmpty()) {
 			telephone = utilisateurBDD.getTelephone();
 		}
-		if (utilisateur.getRue() == null) {
+		if (utilisateur.getRue().isEmpty()) {
 			rue = utilisateurBDD.getRue();
 		}
-		if (utilisateur.getCodePostal() == null) {
+		if (utilisateur.getCodePostal().isEmpty()) {
 			code_postal = utilisateurBDD.getCodePostal();
 		}
-		if (utilisateur.getVille() == null) {
+		if (utilisateur.getVille().isEmpty()) {
 			ville = utilisateurBDD.getVille();
 		}
-		if (utilisateur.getMotDePasse() == null) {
+		if (utilisateur.getMotDePasse().isEmpty()) {
 			mp = utilisateurBDD.getMotDePasse();
 		}
 		utilisateur = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mp);
 		DAOFactory.getUtilisateurDAO().updateUtilisateur(utilisateur);
-	}
+	}	
 
-	public void ajouterUtilisateur(String pseudo, String nom, String prenom, String email, String tel, String rue,
-			String cp, String ville, String mdp, int credit, boolean admin) throws BusinessException, SQLException {
-		BusinessException businessException = new BusinessException();
-		Utilisateur newUtilisateur = null;
-		if (!businessException.hasErreurs()) {
-			newUtilisateur = new Utilisateur();
-			newUtilisateur.setPseudo(pseudo);
-			newUtilisateur.setNom(nom);
-			newUtilisateur.setPrenom(prenom);
-			newUtilisateur.setEmail(email);
-			newUtilisateur.setTelephone(tel);
-			newUtilisateur.setRue(rue);
-			newUtilisateur.setCodePostal(cp);
-			newUtilisateur.setVille(ville);
-			newUtilisateur.setMotDePasse(mdp);
-			newUtilisateur.setCredit(credit);
-			newUtilisateur.setAdministrateur(admin);
-			DAOFactory.getUtilisateurDAO().ajouterUtilisateur(newUtilisateur);
-			utilisateurs.add(newUtilisateur);
-		} else {
-			throw businessException;
-		}	
-	}
-
-
-	/**
-	 */
+	
+	
+	
+	
 	/*
 	 *
-	 * @param pseudo
+	 * @param 
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Integer> validerInscription(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String mdp) {
-		List<Integer> listeCodesErreur = new ArrayList<>();
-		// lecture pseudo
-		if (pseudo == null || pseudo.trim().isEmpty() || pseudo.trim().length() < 4 || pseudo.trim().length() > 30 || !pseudo.trim().matches("^[a-zA-Z0-9]*$")) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_PSEUDO_ERREUR);
+	public void ajoutUtilisateur(Utilisateur newUtilisateur, String confirmation) throws BusinessException, DALException, SQLException {
+//		if (utilisateurs.contains(newUtilisateur)) {
+//			throw new BLLException("Utilisateur déjà existant.");
+//		}
+		BusinessException businessException = new BusinessException();
+		this.validerUtilisateur(newUtilisateur, confirmation, businessException);
+				
+		if(!businessException.hasErreurs())
+		{
+			DAOFactory.getUtilisateurDAO().insertUtilisateur(newUtilisateur);
 		}
-		if (nom == null || nom.trim().isEmpty() || nom.trim().length() > 30 || !nom.trim().matches("^[a-zA-Z0-9]*$")) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_NOM_ERREUR);
+		else
+		{
+			businessException.ajouterErreur(CodesResultatBLL.VALIDATION_UTILISATEUR_ERREUR);
+			throw businessException;
 		}
-		if (prenom == null || prenom.trim().isEmpty() || prenom.trim().length() > 30
-				|| !prenom.trim().matches("^[a-zA-Z0-9]*$")) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_PRENOM_ERREUR);
-		}
-		if (email == null || email.trim().isEmpty() || email.trim().length() > 50
-				|| !email.trim().matches("^(.+)@(.+)$")) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_EMAIL_ERREUR);
-		}
-		if (telephone == null || telephone.trim().isEmpty() || telephone.trim().length() > 30
-				|| !telephone.trim().matches("^\\d{10}$")) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_TELEPHONE_ERREUR);
-		}
-		if (rue == null || rue.trim().isEmpty() || rue.trim().length() > 30 || !rue.trim().matches("^[a-zA-Z0-9]*$")) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_RUE_ERREUR);
-		}
-		if (codePostal == null || codePostal.trim().isEmpty() || codePostal.trim().length() > 5
-				|| !codePostal.trim().matches("^\\d{5}$")) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_CODE_POSTAL_ERREUR);
-		}
-		if (ville == null || ville.trim().isEmpty() || ville.trim().length() > 50
-				|| !ville.trim().matches("^[a-zA-Z0-9]*$")) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_VILLE_ERREUR);
-		}
-		// ||
-		// !mdp.trim().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,}$")
-		if (mdp == null || mdp.trim().isEmpty() || mdp.trim().length() > 30) {
-			listeCodesErreur.add(CodesResultatBLL.FORMAT_UTILISATEUR_MDP_ERREUR);
-		}
-//       // Vérifie si le pseudo n'existe pas parmi les utilisateurs
-//       if(utilisateurs.contains(pseudo.trim())) {
-//           listeCodesErreur.add(CodesResultatBLL.UTILISATEUR_PSEUDO_UNIQUE_ERREUR);
-//       }
-//       // Vérifie si le nom n'existe pas parmi les utilisateurs
-//       if(utilisateurs.contains(nom.trim())) {
-//           listeCodesErreur.add(CodesResultatBLL.UTILISATEUR_NOM_UNIQUE_ERREUR);
-//       }
-		return listeCodesErreur;
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 *
+	 * @param 
+	 * @return
+	 * @throws Exception
+	 */
+		public void validerUtilisateur(Utilisateur u, String confirmation, BusinessException businessException) throws BusinessException {
+		if (u == null) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_NULL_ERREUR);
+		}
+		// Les attributs des utilisateurs sont obligatoires sauf pour le téléphone
+		if (u.getPseudo() == null || u.getPseudo().isBlank() || u.getPseudo().trim().length() < 4 || u.getPseudo().trim().length() > 30 || !u.getPseudo().trim().matches("^[a-zA-Z0-9]*$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_PSEUDO_ERREUR);
+		}
+		if (u.getNom() == null || u.getNom().isBlank() || u.getNom().trim().length() > 30 || !u.getNom().trim().matches("^[a-zA-Z]*$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_NOM_ERREUR);
+		}
+		if (u.getPrenom() == null || u.getPrenom().isBlank() || u.getPrenom().trim().length() > 30 || !u.getPrenom().trim().matches("^[a-zA-Z]*$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_PRENOM_ERREUR);
+		}
+		if (u.getEmail() == null || u.getEmail().isBlank() || u.getEmail().trim().length() > 30 || !u.getEmail().trim().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_EMAIL_ERREUR);
+		}
+		if (u.getTelephone() == null || u.getTelephone().isBlank() || u.getTelephone().trim().length() > 15 || !u.getTelephone().trim().matches("^\\d{10}$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_TELEPHONE_ERREUR);
+		}
+		if (u.getRue() == null || u.getRue().isBlank() || u.getRue().trim().length() > 30 || !u.getRue().trim().matches("^[a-zA-Z0-9]*$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_RUE_ERREUR);
+		}
+		if (u.getCodePostal() == null || u.getCodePostal().isBlank() || u.getCodePostal().trim().length() > 10 || !u.getCodePostal().trim().matches("^\\d{5}$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_CODE_POSTAL_ERREUR);
+		}
+		if (u.getVille() == null || u.getVille().isBlank() || u.getVille().trim().length() > 50 || !u.getVille().trim().matches("^[a-zA-Z]*$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_VILLE_ERREUR);
+		}
+		// !mdp.trim().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,}$")
+		if (u.getMotDePasse() == null || u.getMotDePasse().isBlank() || u.getMotDePasse().trim().length() > 30 || !u.getMotDePasse().trim().matches("^[a-zA-Z0-9@$!%*?&]*$")) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_MDP_ERREUR);
+		}
+		if (u.getCredit() == 0) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_CREDIT_ERREUR);
+		}
+		if (confirmation==null || confirmation.isBlank() || !u.getMotDePasse().equals(confirmation)) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_CONFIRMATION_ERREUR);
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
