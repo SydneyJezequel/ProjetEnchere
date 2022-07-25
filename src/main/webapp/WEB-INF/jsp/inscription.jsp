@@ -132,6 +132,7 @@
 		</c:if>
 		 --%>
 	
+	
 		<form action="${pageContext.servletContext.contextPath}/ServletInscription" method="POST">
 <%-- 		<form action="<%=request.getContextPath()%>/ServletInscription" method="POST"> --%>
 			<div class="champs-gauche">
