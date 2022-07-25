@@ -18,9 +18,9 @@
 
 
 	<!-- Gestion de la session -->
-    <session-config> 
-        <session-timeout>10</session-timeout>
-    </session-config>
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
 
 
 
@@ -43,6 +43,14 @@
 		<url-pattern>/modifierprofil</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>AfficherProfil</servlet-name>
+		<servlet-class>fr.eni.projetenchere.servlet.AfficherProfil</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AfficherProfil</servlet-name>
+		<url-pattern>/afficherProfil</url-pattern>
+	</servlet-mapping>
 
 
 
@@ -86,7 +94,6 @@
 		<url-pattern>/utilisateur</url-pattern>
 	</servlet-mapping>
 
-
 	<servlet>
 		<servlet-name>Inscription</servlet-name>
 		<jsp-file>/WEB-INF/jsp/Inscription.jsp</jsp-file>
@@ -96,7 +103,6 @@
 		<url-pattern>/sinscrire</url-pattern>
 	</servlet-mapping>
 
-
 	<servlet>
 		<servlet-name>ModifierProfilJSP</servlet-name>
 		<jsp-file>/WEB-INF/jsp/ModifierProfil.jsp</jsp-file>
@@ -105,6 +111,17 @@
 		<servlet-name>ModifierProfilJSP</servlet-name>
 		<url-pattern>/modifProfil</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AffichProfil</servlet-name>
+		<jsp-file>/WEB-INF/jsp/AfficherProfil.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AffichProfil</servlet-name>
+		<url-pattern>/affichProfil</url-pattern>
+	</servlet-mapping>
+
+
 
 
 </web-app>
