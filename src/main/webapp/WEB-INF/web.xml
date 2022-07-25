@@ -58,66 +58,66 @@
 
 	<!-- Jsp -->
 	<servlet>
-		<description>Accueil</description>
-		<servlet-name>Accueil</servlet-name>
+		<description>accueil</description>
+		<servlet-name>accueil</servlet-name>
 		<jsp-file>/WEB-INF/jsp/accueil.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Accueil</servlet-name>
+		<servlet-name>accueil</servlet-name>
 		<url-pattern>/accueil</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>ConnexionJSP</servlet-name>
-		<jsp-file>/WEB-INF/jsp/Connexion.jsp</jsp-file>
+		<servlet-name>connexion</servlet-name>
+		<jsp-file>/WEB-INF/jsp/connexion.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ConnexionJSP</servlet-name>
+		<servlet-name>connexion</servlet-name>
 		<url-pattern>/connexion</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>AccueilAdministrateur</servlet-name>
-		<jsp-file>/WEB-INF/jsp/AccueilAdmin.jsp</jsp-file>
+		<servlet-name>accueil_administrateur</servlet-name>
+		<jsp-file>/WEB-INF/jsp/accueil_administrateur.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AccueilAdministrateur</servlet-name>
+		<servlet-name>accueil_administrateur</servlet-name>
 		<url-pattern>/administrateur</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>AccueilUtilisateur</servlet-name>
-		<jsp-file>/WEB-INF/jsp/AccueilUtilisateur.jsp</jsp-file>
+		<servlet-name>accueil_utilisateur</servlet-name>
+		<jsp-file>/WEB-INF/jsp/accueil_utilisateur.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AccueilUtilisateur</servlet-name>
+		<servlet-name>accueil_utilisateur</servlet-name>
 		<url-pattern>/utilisateur</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>Inscription</servlet-name>
-		<jsp-file>/WEB-INF/jsp/Inscription.jsp</jsp-file>
+		<servlet-name>inscription</servlet-name>
+		<jsp-file>/WEB-INF/jsp/inscription.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Inscription</servlet-name>
+		<servlet-name>inscription</servlet-name>
 		<url-pattern>/sinscrire</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>ModifierProfilJSP</servlet-name>
-		<jsp-file>/WEB-INF/jsp/ModifierProfil.jsp</jsp-file>
+		<servlet-name>modifier_profil</servlet-name>
+		<jsp-file>/WEB-INF/jsp/modifier_profil.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ModifierProfilJSP</servlet-name>
+		<servlet-name>modifier_profil</servlet-name>
 		<url-pattern>/modifProfil</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>AffichProfil</servlet-name>
-		<jsp-file>/WEB-INF/jsp/AfficherProfil.jsp</jsp-file>
+		<servlet-name>afficher_profil</servlet-name>
+		<jsp-file>/WEB-INF/jsp/afficher_profil.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AffichProfil</servlet-name>
+		<servlet-name>afficher_profil</servlet-name>
 		<url-pattern>/affichProfil</url-pattern>
 	</servlet-mapping>
 

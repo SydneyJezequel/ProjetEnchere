@@ -14,12 +14,15 @@
 </div>
 </header>
 
+
 <!-- Titre -->
 <div class="row">
 	<div class="col-lg-12">
 		<h3 class="text-center">Liste des enchères</h3>
 	</div>
 </div>
+
+
 <!-- Filtres -->
 <h3 class="filtre">Filtres :</h3>
 <form action="<%=request.getContextPath()%>/encheres" method="get">

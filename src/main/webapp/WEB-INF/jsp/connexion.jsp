@@ -17,6 +17,7 @@
 
 
 
+
 	<!-- Message de validation -->
 	<%
 	if (request.getAttribute("refuse") != null) {
