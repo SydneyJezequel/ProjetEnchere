@@ -18,8 +18,11 @@ import fr.eni.projetenchere.bo.Utilisateur;
  */
 
 public class Connexion extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
+	
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -27,16 +30,20 @@ public class Connexion extends HttpServlet {
 		super();
 	}
 
+	
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response) Méthode qui est le point d'entrée de la connexion.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/connexion");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 		rd.forward(request, response);
 	}
 
+	
+	
 	// Connexion (test de connexion, renvoie vers la bonne session ou message
 	// d'erreur).
 	/**
@@ -61,20 +68,29 @@ public class Connexion extends HttpServlet {
 				session.setAttribute("id", id);
 				session.setAttribute("pseudo", pseudo);
 				if (utilisateurConnecte.isAdministrateur() == true) {
-					rd = request.getRequestDispatcher("/administrateur");
+					rd = request.getRequestDispatcher("/WEB-INF/jsp/accueil_administrateur.jsp");
 				} else {
-					rd = request.getRequestDispatcher("/utilisateur");
+					rd = request.getRequestDispatcher("/WEB-INF/jsp/accueil_utilisateur.jsp");
 				}
 			} else {
 				String non = "Authentification incorrecte";
 				request.setAttribute("refuse", non);
-				rd = request.getRequestDispatcher("/connexion");
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
 		}
 		rd.forward(request, response);
 	}
 
+	
+
+	
+	
 }
+
+
+
+

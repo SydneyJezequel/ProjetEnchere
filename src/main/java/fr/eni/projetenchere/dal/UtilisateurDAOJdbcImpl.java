@@ -16,7 +16,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	// Requêtes paramétrées :
 	private static final String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM UTILISATEURS WHERE no_utilisateur = ?";
 	private static final String SELECT_BY_NAME = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM UTILISATEURS WHERE pseudo = ?";
-	private static final String UPDATEUTILISATEURS = "UPDATE UTILISATEURS SET pseudo = ? , nom= ? , prenom = ? , email = ? , telephone = ? , rue = ? , code_postal = ? , ville = ? , mot_de_passe = ? WHERE no_utilisateur = ?";
+	private static final String UPDATE_UTILISATEURS = "UPDATE UTILISATEURS SET pseudo = ? , nom= ? , prenom = ? , email = ? , telephone = ? , rue = ? , code_postal = ? , ville = ? , mot_de_passe = ? WHERE no_utilisateur = ?";
 
 	
 	
@@ -91,11 +91,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	public void updateUtilisateur(Utilisateur utilisateur) throws SQLException, DALException {
 			Connection cnx = null;
 			PreparedStatement pstmt = null;
-		
+			System.out.println("Test 1 DAL "+utilisateur.getPseudo()); // Test 3 : La valeur transmise de la couche BLL n'arrive pas jusqu'ici. Résultat : "NULL".
 			cnx = ConnectionProvider.getConnection();
 			try {
 				cnx.setAutoCommit(false);
-				pstmt = cnx.prepareStatement(UPDATEUTILISATEURS);
+				pstmt = cnx.prepareStatement(UPDATE_UTILISATEURS);
 				pstmt.setString(1, utilisateur.getPseudo());
 				pstmt.setString(2, utilisateur.getNom());
 				pstmt.setString(3, utilisateur.getPrenom());
@@ -150,6 +150,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 
 	
+
 	
 	/**
 	 * Méthode permettant de sélectionner tous les Utilisateurs de la BDD.
@@ -166,18 +167,24 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	
-	/*
-	public void ajouterUtilisateur(Utilisateur utilisateur) throws BusinessException, SQLException {
+	
+	/**
+	 * 
+	 * @param utilisateur
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	public void insertUtilisateur(Utilisateur utilisateur) throws SQLException, BusinessException {
         if(utilisateur==null)
         {
             BusinessException businessException = new BusinessException();
-            businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+            businessException.ajouterErreur(CodesResultatDAL.INSERT_UTILISATEUR_NULL);
             throw businessException;
         }
         Connection cnx = null;
-        cnx = ConnectionProvider.getConnection();
         try
         {
+        	cnx = ConnectionProvider.getConnection();
             try
             {
                 cnx.setAutoCommit(false);
@@ -207,21 +214,27 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             }
             catch(SQLException e)
             {
-                System.out.println("erreur ajout utilisateur");
-                e.printStackTrace();
-                cnx.rollback();
-                throw e;
+            	cnx.rollback();
+//                System.out.println("erreur insert utilisateur - DAL");
+//                throw new SQLException("Erreur insert utilisateur", e);
+                
+                
+    			e.printStackTrace();
+    			BusinessException businessException = new BusinessException();
+    			businessException.ajouterErreur(CodesResultatDAL.INSERT_UTILISATEUR_ECHEC);
+    			throw businessException;
             }
         }
-        catch(Exception e)
+        catch(SQLException e)
         {
-            e.printStackTrace();
-            BusinessException businessException = new BusinessException();
-            businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
-            throw businessException;
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.CONNEXION_BDD_ECHEC);
+			throw businessException;
 
         }
-	*/
-	
+	}
+        
+        
 
 }

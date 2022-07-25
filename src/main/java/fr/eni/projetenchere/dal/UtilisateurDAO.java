@@ -3,6 +3,7 @@ package fr.eni.projetenchere.dal;
 import java.sql.SQLException;
 import java.util.List;
 
+import fr.eni.projetenchere.BusinessException;
 import fr.eni.projetenchere.bll.UtilisateurManager;
 import fr.eni.projetenchere.bo.Utilisateur;
 
@@ -53,9 +54,16 @@ public interface UtilisateurDAO {
 	public List<Utilisateur> selectAll() throws SQLException;
 
 	
+
 	/*
 	 * 
+	 * 
 	 */
-	public void ajouterUtilisateur(Utilisateur newUtilisateur);
-
+	public void insertUtilisateur(Utilisateur utilisateur) throws SQLException, BusinessException;
+	
+	
+	
+	
+	
+	
 }

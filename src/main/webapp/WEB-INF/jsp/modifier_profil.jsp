@@ -95,7 +95,7 @@ input[type=submit] {
 
 	<!-- Message de validation -->
 	<%
-	if (request.getAttribute("modifie") != null) {
+	if (session.getAttribute("modifie") != null) {
 	%>
 	<p>
 		<%=request.getAttribute("modifie")%>
@@ -111,26 +111,19 @@ input[type=submit] {
 		<form action="<%=request.getContextPath()%>/modifierprofil"
 			method="POST">
 			<div class="champs-gauche">
-				<label for="pseudo">Pseudo :</label> <input type="text"
-					name="pseudo" value="pseudo" /> <br> <label for="prenom">Prénom
-					:</label> <input type="text" name="prenom" value="prenom" /> <br> <label
-					for="telephone">Téléphone :</label> <input type="text"
-					name="telephone" value="telephone" /> <br> <label
-					for="code_postal">Code postal :</label> <input type="text"
-					name="code_postal" value="12345" /> <br> <label
-					for="mdpactuel">Mot de passe actuel :</label> <input
-					type="password" name="mdpactuel" /> <br> <label
-					for="nouveaumdp">Nouveau mot de passe :</label> <input
-					type="password" name="nouveaumdp" /> <br>
+				<label for="pseudo">Pseudo :</label> <input type="text" name="pseudo" <c:out value="${sessionScope.utilisateur.pseudo}"/> /> <br>
+				<label for="prenom">Prénom :</label> <input type="text" name="prenom" <c:out value="${sessionScope.utilisateur.prenom}"/> /> <br>
+				<label for="telephone">Téléphone :</label> <input type="text" name="telephone" <c:out value="${sessionScope.utilisateur.telephone}"/> /> <br>
+				<label for="code_postal">Code postal :</label> <input type="text" name="code_postal" <c:out value="${sessionScope.utilisateur.code_postal}"/> /> <br>
+				<label for="mdpactuel">Mot de passe actuel :</label> <input type="password" name="mdpactuel" /> <br>
+				<label for="nouveaumdp">Nouveau mot de passe :</label> <input type="password" name="nouveaumdp" /> <br>
 			</div>
 			<div class="champs-droite">
-				<label for="nom">Nom :</label> <input type="text" name="nom"
-					value="nom" /> <br> <label for="email">Email :</label> <input
-					type="text" name="email" value="email" /> <br> <label
-					for="rue">Rue :</label> <input type="text" name="rue" value="rue" />
-				<br> <label for="ville">Ville :</label> <input type="text"
-					name="ville" value="ville" /> <br> <label for="confirmation">Confirmation
-					:</label> <input type="password" name="confirmation" /> <br>
+				<label for="nom">Nom :</label> <input type="text" name="nom" <c:out value="${sessionScope.utilisateur.nom}"/> /> <br>
+				<label for="email">Email :</label> <input type="text" name="email" <c:out value="${sessionScope.utilisateur.email}"/> /> <br>
+				<label for="rue">Rue :</label> <input type="text" name="rue" <c:out value="${sessionScope.utilisateur.rue}"/> /> <br>
+				<label for="ville">Ville :</label> <input type="text" name="ville" <c:out value="${sessionScope.utilisateur.ville}"/> /> <br>
+				<label for="confirmation">Confirmation :</label> <input type="password" name="confirmation"/> <br>
 			</div>
 			<div class="boutons">
 				<input type="submit" name="valider" value="Enregistrer"

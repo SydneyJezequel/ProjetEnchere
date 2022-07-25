@@ -5,14 +5,9 @@
 	version="4.0">
 	<display-name>ProjetEnchere</display-name>
 
-
+<!-- A NETTOYER : AVOIR UNE SEULE PAGE WELCOME FILE : url Servlet de démarrage -->
 	<welcome-file-list>
-		<welcome-file>accueil.html</welcome-file>
-		<welcome-file>accueil.htm</welcome-file>
 		<welcome-file>accueil.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
 
@@ -55,7 +50,7 @@
 
 
 
-
+	<!-- RETIRER L'URL PATTERN DES JSP. ON Y ACCEDE VIA LES SERVLETS & LES CHEMINS PHYSIQUE -->
 	<!-- Jsp -->
 	<servlet>
 		<description>accueil</description>
@@ -71,28 +66,16 @@
 		<servlet-name>connexion</servlet-name>
 		<jsp-file>/WEB-INF/jsp/connexion.jsp</jsp-file>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>connexion</servlet-name>
-		<url-pattern>/connexion</url-pattern>
-	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>accueil_administrateur</servlet-name>
 		<jsp-file>/WEB-INF/jsp/accueil_administrateur.jsp</jsp-file>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>accueil_administrateur</servlet-name>
-		<url-pattern>/administrateur</url-pattern>
-	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>accueil_utilisateur</servlet-name>
 		<jsp-file>/WEB-INF/jsp/accueil_utilisateur.jsp</jsp-file>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>accueil_utilisateur</servlet-name>
-		<url-pattern>/utilisateur</url-pattern>
-	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>inscription</servlet-name>
@@ -107,20 +90,16 @@
 		<servlet-name>modifier_profil</servlet-name>
 		<jsp-file>/WEB-INF/jsp/modifier_profil.jsp</jsp-file>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>modifier_profil</servlet-name>
-		<url-pattern>/modifProfil</url-pattern>
-	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>afficher_profil</servlet-name>
 		<jsp-file>/WEB-INF/jsp/afficher_profil.jsp</jsp-file>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>afficher_profil</servlet-name>
-		<url-pattern>/affichProfil</url-pattern>
-	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>modifier_profil</servlet-name>
+		<jsp-file>/WEB-INF/jsp/message_erreur.jsp</jsp-file>
+	</servlet>
 
 
 

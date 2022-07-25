@@ -41,8 +41,8 @@ public class ModifierProfil extends HttpServlet {
 		RequestDispatcher rd = null;
 		try {
 			HttpSession session = request.getSession(true);
-			if (session.getAttribute("utilisateurConnecte") == null) {
-				rd = request.getRequestDispatcher("/connexion");
+			if (session.getAttribute("id") == null) {
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			} else {
 				String utilisateurConnecte = (String) session.getAttribute("id");
 				Utilisateur utilisateur = new Utilisateur();
@@ -50,10 +50,11 @@ public class ModifierProfil extends HttpServlet {
 				int credit = utilisateur.getCredit();
 				session.setAttribute("credit", credit);
 				session.setAttribute("utilisateur", utilisateur);
-				rd = request.getRequestDispatcher("/modifProfil");
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/modifier_profil.jsp");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); // Renvoyer vers une page jsp qui va afficher le message d'erreur.
+			e.printStackTrace();
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
 		}
 		rd.forward(request, response);
 	}
@@ -69,48 +70,56 @@ public class ModifierProfil extends HttpServlet {
 	 *         type Utilisateur avec les valeurs récupérées, Renvoie la réponse
 	 *         définie.
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(true);
+		RequestDispatcher rd = null;
+		String modifie;
+		String pseudo = null;
+		String nom = null;
+		String prenom = null;
+		String email = null;
+		String telephone = null;
+		String rue = null;
+		String code_postal = null;
+		String ville = null;
+		String mpactuel = null;
+		String nouveaumdp = null;
+		String confirmation = null;
 		try {
-			HttpSession session = request.getSession(true);
-			Utilisateur utilisateurModifie = new Utilisateur();
-			utilisateurModifie = (Utilisateur) session.getAttribute("utilisateur");
-			int id = utilisateurModifie.getNoUtilisateur();
-			String pseudo = request.getParameter("pseudo");
-			String nom = request.getParameter("nom");
-			String prenom = request.getParameter("prenom");
-			String email = request.getParameter("email");
-			String telephone = request.getParameter("telephone");
-			String rue = request.getParameter("rue");
-			String code_postal = request.getParameter("code_postal");
-			String ville = request.getParameter("ville");
-			String mpactuel = request.getParameter("mdpactuel");
-			String nouveaumdp = request.getParameter("nouveaumdp");
-			String confirmation = request.getParameter("confirmation");
-			String modifie;
-			if (pseudo == null & nom == null & prenom == null & email == null & telephone == null & rue == null
-					& code_postal == null & ville == null & mpactuel == null & nouveaumdp == null
-					& confirmation == null) {
-				modifie = "Aucune information n'a été renseignée";
-			} else if (nouveaumdp != null) {
-				if (UtilisateurManager.getInstance().VerifMdpActuel(pseudo, mpactuel) == false) {
-					modifie = "Le mot de passe renseigné est inexact.";
-				} else if (nouveaumdp != confirmation) {
-					modifie = "Les 2 versions du nouveau mot de passe ne concordent pas.";
-				} else {
-					modifie = "Votre Profil a été modifié";
-				}
+			if (session.getAttribute("id")==null){
+				modifie = "nous rencontrons un problème de gestion de votre session.";
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			} else {
-				utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, code_postal, ville,
-						nouveaumdp);
+				Utilisateur utilisateurModifie = new Utilisateur();
+				utilisateurModifie = (Utilisateur) session.getAttribute("utilisateur");
+				int id = utilisateurModifie.getNoUtilisateur();
+				pseudo = request.getParameter("pseudo");
+				nom = request.getParameter("nom");
+				prenom = request.getParameter("prenom");
+				email = request.getParameter("email");
+				telephone = request.getParameter("telephone");
+				rue = request.getParameter("rue");
+				code_postal = request.getParameter("code_postal");
+				ville = request.getParameter("ville");
+				mpactuel = request.getParameter("mdpactuel");
+				nouveaumdp = request.getParameter("nouveaumdp");
+				confirmation = request.getParameter("confirmation");
+				utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, nouveaumdp);
 				UtilisateurManager.getInstance().updateUtilisateur(utilisateurModifie);
 				modifie = "Votre Profil a été modifié";
-				request.setAttribute("modifie", modifie);
-			}
+				session.setAttribute("modifie", modifie);
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/afficher_profil.jsp"); 
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
+		} finally {
+		rd.forward(request, response);
 		}
-		doGet(request, response);
-	}
+		}
 
+
+		
+		
+		
 }

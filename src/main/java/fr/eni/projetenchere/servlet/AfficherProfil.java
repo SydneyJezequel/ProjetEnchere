@@ -39,7 +39,7 @@ public class AfficherProfil extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(true);
 			if (session.getAttribute("id") == null) {
-				rd = request.getRequestDispatcher("/utilisateur");
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			} else {
 				String utilisateurConnecte = (String) session.getAttribute("id");
 				Utilisateur utilisateur = new Utilisateur();
@@ -51,10 +51,11 @@ public class AfficherProfil extends HttpServlet {
 				session.setAttribute("rue", utilisateur.getRue());
 				session.setAttribute("codePostal", utilisateur.getCodePostal());
 				session.setAttribute("ville", utilisateur.getVille());
-				rd = request.getRequestDispatcher("/affichProfil");
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/afficher_profil.jsp");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); // Renvoyer vers une page jsp qui va afficher le message d'erreur.
+			e.printStackTrace();
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
 		}
 		rd.forward(request, response);
 	}
