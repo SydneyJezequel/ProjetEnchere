@@ -113,7 +113,7 @@ input[type=submit] {
 
 <!-- A compléter avec Styve. -->
 <input type="submit" value="Supprimer" class="annuler">
-<a href="<%=request.getContextPath()%>/modifProfil">Modifier Profil</a>
+<a href="<%=request.getContextPath()%>/modifierprofil">Modifier Profil</a>
 
 
 </body>
