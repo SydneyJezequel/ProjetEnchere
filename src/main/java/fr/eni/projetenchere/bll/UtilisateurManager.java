@@ -178,7 +178,7 @@ public class UtilisateurManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public void ajoutUtilisateur(Utilisateur newUtilisateur, String confirmation) throws BusinessException, DALException, SQLException {
+	public void ajoutUtilisateur(Utilisateur newUtilisateur, String confirmation) throws BusinessException, DALException, SQLException, BLLException {
 //		if (utilisateurs.contains(newUtilisateur)) {
 //			throw new BLLException("Utilisateur déjà existant.");
 //		}
