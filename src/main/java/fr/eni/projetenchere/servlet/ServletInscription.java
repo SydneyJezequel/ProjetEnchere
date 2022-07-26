@@ -74,7 +74,7 @@ public class ServletInscription extends HttpServlet {
             //J'ajoute l'utilisateur
 //            UtilisateurManager utilisateurManager = new UtilisateurManager();
             try {
-                UtilisateurManager.getInstance().ajouterUtilisateur(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mdp, credit, admin);
+                UtilisateurManager.getInstance().ajoutUtilisateur(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mdp, credit, admin);
                 //Si tout se passe bien, je vais vers la page d'accueil:
                 RequestDispatcher rd = request.getRequestDispatcher("/accueil");
                 rd.forward(request, response);
