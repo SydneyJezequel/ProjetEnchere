@@ -3,7 +3,7 @@ package fr.eni.projetenchere.bo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Categories {
+public class Categorie {
 
 	
 	private static final long serialVersionUID = 1L;
@@ -17,15 +17,15 @@ public class Categories {
 	
 	
 	// Constructeurs :
-	public Categories() {}
+	public Categorie() {}
 	
-	public Categories(String libelle) {
+	public Categorie(String libelle) {
 		this();
 		setNoCategorie(noCategorie);
 		setLibelle(libelle);
 	}
 	
-	public Categories(int noCategorie, String libelle) {
+	public Categorie(int noCategorie, String libelle) {
 		this();
 		setNoCategorie(noCategorie);
 		setLibelle(libelle);

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 
-public class Encheres {
+public class Enchere {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -16,15 +16,15 @@ public class Encheres {
 	private String codePostal;
 	private String ville;
 	private int noArticle;
-	private Articles article;
+	private Article article;
 	private Utilisateur utilisateur;
 	
 	
 	
 	// Constructeurs :
-	public Encheres() {}
+	public Enchere() {}
 	
-	public Encheres(String rue, String codePostal, String ville, Articles article, Utilisateur utilisateur) {
+	public Enchere(String rue, String codePostal, String ville, Article article, Utilisateur utilisateur) {
 		this();
 		setRue(rue);
 		setCodePostal(codePostal);
@@ -33,7 +33,7 @@ public class Encheres {
 		setUtilisateur(utilisateur);
 	}
 	
-	public Encheres(int noRetrait, String rue, String codePostal, String ville,  Articles article, Utilisateur utilisateur) {
+	public Enchere(int noRetrait, String rue, String codePostal, String ville,  Article article, Utilisateur utilisateur) {
 		this(rue, codePostal, ville, article, utilisateur);
 		setNoRetrait(noRetrait);
 	}
@@ -81,11 +81,11 @@ public class Encheres {
 		this.noArticle = noArticle;
 	}
 
-	public Articles getArticle() {
+	public Article getArticle() {
 		return article;
 	}
 
-	public void setArticle(Articles article) {
+	public void setArticle(Article article) {
 		this.article = article;
 	}
 

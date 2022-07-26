@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 
 
-public class Articles {
+public class Article {
 
 	private static final long serialVersionUID = 1L;
 
@@ -20,14 +20,14 @@ public class Articles {
 	private double prixInitial;
 	private double prixVente;
 	private Utilisateur utilisateur;
-	private Categories categorie;
+	private Categorie categorie;
 	
 	
 	
 	// Constructeurs :
-	public Articles() {}
+	public Article() {}
 	
-	public Articles(String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categories categorie) {
+	public Article(String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categorie categorie) {
 		this();
 		setNomArticle(nomArticle);
 		setDescription(description);
@@ -39,7 +39,7 @@ public class Articles {
 		setCategorie(categorie);
 	}
 
-	public Articles(int noArticle, String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categories categorie) {
+	public Article(int noArticle, String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categorie categorie) {
 		this(nomArticle, description, photoArticle, dateDebutEncheres, dateFinEncheres, prixInitial, utilisateur, categorie);
 		setNoArticle(noArticle);
 	}
@@ -110,11 +110,11 @@ public class Articles {
 		this.utilisateur = utilisateur;
 	}
 
-	public Categories getCategorie() {
+	public Categorie getCategorie() {
 		return categorie;
 	}
 
-	public void setCategorie(Categories categorie) {
+	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
 	
