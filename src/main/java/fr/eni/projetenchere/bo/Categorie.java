@@ -1,9 +1,10 @@
 package fr.eni.projetenchere.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Categorie {
+public class Categorie implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
