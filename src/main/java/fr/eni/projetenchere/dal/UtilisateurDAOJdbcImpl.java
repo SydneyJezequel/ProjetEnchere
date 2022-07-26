@@ -18,7 +18,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	private static final String SELECT_BY_NAME = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM UTILISATEURS WHERE pseudo = ?";
 	private static final String UPDATE_UTILISATEURS = "UPDATE utilisateurs SET pseudo = ? , nom= ? , prenom = ? , email = ? , telephone = ? , rue = ? , code_postal = ? , ville = ? , mot_de_passe = ? WHERE no_utilisateur = ?";
 	private static final String INSERT_UTILISATEUR = "INSERT INTO utilisateurs (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	
+	private final static String SUPPRIMER = "DELETE from UTILISATEURS where pseudo =?;";
+
 	
 	
 	/*-------------------------------------- METHODES -------------------------------------- */
@@ -236,6 +237,27 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
         }
 	}
         
+	public void supprimer(String pseudo) throws DALException {
+		Connection cnx=null;
+		PreparedStatement pstmt=null;
+		
+			try {
+				cnx = ConnectionProvider.getConnection();
+				pstmt=cnx.prepareStatement(SUPPRIMER);
+				pstmt.setString(1, pseudo);
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new DALException ("Probleme - supprimerUtilisateur - " + e.getMessage());
+			}finally{
+				try{
+					if (pstmt!=null) pstmt.close();
+					if (cnx!=null) cnx.close();
+				}catch (SQLException e){
+					throw new DALException ("Probleme - fermerConnexion - " + e.getMessage());
+				}	
+			}
+		
+	}
         
 
 }

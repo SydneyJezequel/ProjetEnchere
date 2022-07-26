@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import fr.eni.projetenchere.BusinessException;
-import fr.eni.projetenchere.bll.UtilisateurManager;
 import fr.eni.projetenchere.bo.Utilisateur;
 
 /**
@@ -13,7 +12,6 @@ import fr.eni.projetenchere.bo.Utilisateur;
  * @author sjezequel
  *
  */
-
 
 
 public interface UtilisateurDAO {
@@ -64,8 +62,16 @@ public interface UtilisateurDAO {
 	 */
 	public void insertUtilisateur(Utilisateur utilisateur) throws SQLException, BusinessException;
 	
-	
-	
+	/**
+	 * SUPPRIMER UN PSEUDO UTILISATEUR
+	 * @param pseudo
+	 * @throws DALException
+	 */
+	public static void supprimer(String pseudo) throws DALException {
+		// TODO Auto-generated method stub
+		
+	}
+		
 	
 	
 	
