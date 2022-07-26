@@ -22,7 +22,7 @@ import fr.eni.projetenchere.bo.Utilisateur;
 @WebServlet("/ServletInscription")
 public class ServletInscription extends HttpServlet {
     private static final long serialVersionUID = 1L;
-/*
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp");
@@ -89,5 +89,6 @@ public class ServletInscription extends HttpServlet {
         }
         doGet(request, response);
     }
-    */
+   
+    
 }
