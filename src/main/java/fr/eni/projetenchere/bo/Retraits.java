@@ -1,27 +1,27 @@
 package fr.eni.projetenchere.bo;
 
-public class Retrait {
+public class Retraits {
 	
 	
 	private static final long serialVersionUID = 1L;
 	
 	
 	// Attributs :
-	int noRetrait;
-	String rue;
-	String codePostal;
-	String ville;
-	Article article;
+	private int noRetrait;
+	private String rue;
+	private String codePostal;
+	private String ville;
+	private Articles article;
 	
 	
 	// Constructeurs :
-	public Retrait() {}
+	public Retraits() {}
 	
-	public Retrait(String rue, String codePostal, String ville, Article article) {
+	public Retraits(String rue, String codePostal, String ville, Articles article) {
 		this();
 	}
 	
-	public Retrait(int noRetrait, String rue, String codePostal, String ville, Article article) {
+	public Retraits(int noRetrait, String rue, String codePostal, String ville, Articles article) {
 		this(rue, codePostal, ville, article);
 		setNoRetrait(noRetrait);
 	}
@@ -60,11 +60,11 @@ public class Retrait {
 		this.ville = ville;
 	}
 
-	public Article getArticle() {
+	public Articles getArticle() {
 		return article;
 	}
 
-	public void setArticle(Article article) {
+	public void setArticle(Articles article) {
 		this.article = article;
 	}
 

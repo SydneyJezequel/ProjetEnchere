@@ -6,28 +6,28 @@ import java.time.LocalDate;
 
 
 
-public class Article {
+public class Articles {
 
 	private static final long serialVersionUID = 1L;
 
 	// Attributs :
-	int noArticle;
-	String nomArticle;
-	String description;
-	InputStream photoArticle; 
-	LocalDate dateDebutEncheres;
-	LocalDate dateFinEncheres;
-	double prixInitial;
-	double prixVente;
-	Utilisateur utilisateur;
-	Categorie categorie;
+	private int noArticle;
+	private String nomArticle;
+	private String description;
+	private InputStream photoArticle; 
+	private LocalDate dateDebutEncheres;
+	private LocalDate dateFinEncheres;
+	private double prixInitial;
+	private double prixVente;
+	private Utilisateur utilisateur;
+	private Categories categorie;
 	
 	
 	
 	// Constructeurs :
-	public Article() {}
+	public Articles() {}
 	
-	public Article(String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categorie categorie) {
+	public Articles(String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categories categorie) {
 		this();
 		setNomArticle(nomArticle);
 		setDescription(description);
@@ -39,7 +39,7 @@ public class Article {
 		setCategorie(categorie);
 	}
 
-	public Article(int noArticle, String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categorie categorie) {
+	public Articles(int noArticle, String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categories categorie) {
 		this(nomArticle, description, photoArticle, dateDebutEncheres, dateFinEncheres, prixInitial, utilisateur, categorie);
 		setNoArticle(noArticle);
 	}
@@ -110,11 +110,11 @@ public class Article {
 		this.utilisateur = utilisateur;
 	}
 
-	public Categorie getCategorie() {
+	public Categories getCategorie() {
 		return categorie;
 	}
 
-	public void setCategorie(Categorie categorie) {
+	public void setCategorie(Categories categorie) {
 		this.categorie = categorie;
 	}
 	
