@@ -4,23 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>PAGE ERREURS</title>
 </head>
 <body>
-
-
-
-
-<h1>Erreur !!!!!</h1>
-
-
-
-
-
- 
-
-
-
-
+<% Exception e = (Exception) request.getAttribute("erreur"); %>
+<h1>ERREUR</h1>
+<h4>Une erreur s'est produite : </h4>
+<font color=red>
+<%=e.getMessage() %><br/> 
+nom de la classe : <%=e.getStackTrace()[0].getClassName()%><br/>
+nom de la methode : <%=e.getStackTrace()[0].getMethodName()%><br/>
+nom du fichier : <%=e.getStackTrace()[0].getFileName()%><br/>
+numero de la ligne : <%=e.getStackTrace()[0].getLineNumber()%><br/>
+</font>
 </body>
 </html>

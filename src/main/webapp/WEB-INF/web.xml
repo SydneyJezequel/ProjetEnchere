@@ -97,7 +97,7 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>modifier_profil</servlet-name>
+		<servlet-name>message_erreur</servlet-name>
 		<jsp-file>/WEB-INF/jsp/message_erreur.jsp</jsp-file>
 	</servlet>
 
