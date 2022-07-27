@@ -47,6 +47,9 @@ public class ServletInscription extends HttpServlet {
 		String prenom = request.getParameter("prenom");
 		String email = request.getParameter("email");
 		String telephone = request.getParameter("telephone");
+		if(telephone==null) {
+			telephone = "";
+		}
 		String rue = request.getParameter("rue");
 		String code_postal = request.getParameter("code_postal");
 		String ville = request.getParameter("ville");
