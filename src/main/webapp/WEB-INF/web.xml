@@ -47,6 +47,17 @@
 		<url-pattern>/afficherProfil</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>VendreArticle</servlet-name>
+		<servlet-class>fr.eni.projetenchere.servlet.VendreArticle</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VendreArticle</servlet-name>
+		<url-pattern>/vendreArticle</url-pattern>
+	</servlet-mapping>
+
+
+
 
 
 
@@ -99,6 +110,11 @@
 	<servlet>
 		<servlet-name>message_erreur</servlet-name>
 		<jsp-file>/WEB-INF/jsp/message_erreur.jsp</jsp-file>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>VenteArticle</servlet-name>
+		<jsp-file>/WEB-INF/jsp/VendreArticle.jsp</jsp-file>
 	</servlet>
 
 
