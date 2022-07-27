@@ -10,7 +10,7 @@
 <%String nom  = (String) session.getAttribute("pseudo");%>
 	<div class="col-lg-12 text-right">
 		<a href="<%=request.getContextPath()%>/utilisateur">Enchères
-			- </a> <a href="<%=request.getContextPath()%>/VendreArticle">Vendre un article
+			- </a> <a href="<%=request.getContextPath()%>/vendreArticle">Vendre un article
 			- </a> <a href="<%=request.getContextPath()%>/afficherProfil">Profil de <%=nom%>		
 			- </a> <a href="<%=request.getContextPath()%>/GestionDeconnexion">Déconnexion</a>
 	</div>

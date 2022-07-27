@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.projetenchere.BusinessException;
 import fr.eni.projetenchere.bll.UtilisateurManager;
 import fr.eni.projetenchere.bo.Utilisateur;
 
@@ -44,16 +45,10 @@ public class AfficherProfil extends HttpServlet {
 				String utilisateurConnecte = (String) session.getAttribute("id");
 				Utilisateur utilisateur = new Utilisateur();
 				utilisateur = UtilisateurManager.getInstance().getUtilisateurByPseudo(utilisateurConnecte);
-				session.setAttribute("nom", utilisateur.getNom());
-				session.setAttribute("prenom", utilisateur.getPrenom());
-				session.setAttribute("email", utilisateur.getEmail());
-				session.setAttribute("telephone", utilisateur.getTelephone());
-				session.setAttribute("rue", utilisateur.getRue());
-				session.setAttribute("codePostal", utilisateur.getCodePostal());
-				session.setAttribute("ville", utilisateur.getVille());
+				session.setAttribute("utilisateurConnecte", utilisateur);
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/afficher_profil.jsp");
 			}
-		} catch (SQLException e) {
+		} catch (BusinessException e) {
 			e.printStackTrace();
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
 		}

@@ -1,6 +1,9 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,16 +23,11 @@ h2 {
 
 .formulaire {
 	display: block;
-	background-color: #CCC;
 	width: 80%;
-	margin: 10px auto;
 	padding: 15px;
-	border: 10px solid #000;
+
 }
 
-form {
-	text-align: center;
-}
 
 label {
 	display: inline-block;
@@ -43,9 +41,7 @@ label {
 	width: 40%;
 	margin: 0 50px 50px;
 	float: left;
-	padding: 10px;
-	/* position: relative;
-   			right:0; */
+	padding: 15px;
 	border: 3px solid blue;
 }
 
@@ -53,34 +49,27 @@ label {
 	display: block;
 	width: 40%;
 	margin: 0 50px 50px;
-	padding: 10px;
-	float: right;
-	/* position: relative;
-   			right:0; */
+	padding: 15px;
+	float: center;
 	border: 3px solid blue;
 }
 
-input[type=text] {
-	padding: 10px;
-}
 
-input[type=submit] {
-	width: 300px;
-	height: 50px;
-	padding: 10px;
-	font-size: 20px;
-	font-weight: 400;
-	max-width: 550px;
-	margin: 0 auto;
-	background: #D1F2EB;
-	border-radius: 5px;
-	box-shadow: 0 0 5px #011627ff;
+.bouton {
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+	background-color: #1c87c9;
+	border: none;
+	color: black;
+	padding: 20px 34px;
 	text-align: center;
-}
-
-.form2 {
-	display: inline;
-	outline: solid #A23;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 20px;
+	margin: 4px 2px;
+	border-radius : 10px;
+	cursor: pointer;
 }
 </style>
 </head>
@@ -91,17 +80,6 @@ input[type=submit] {
 	<h2>Mon Profil</h2>
 	<br>
 	<br>
-
-
-	<!-- Message de validation -->
-	<%
-	if (session.getAttribute("modifie") != null) {
-	%>
-	<p>
-		<%=request.getAttribute("modifie")%>
-	</p>
-	<%}%>
-
 	<br>
 	<br>
 
@@ -111,33 +89,31 @@ input[type=submit] {
 		<form action="<%=request.getContextPath()%>/modifierprofil"
 			method="POST">
 			<div class="champs-gauche">
-				<label for="pseudo">Pseudo :</label> <input type="text" name="pseudo" <c:out value="${sessionScope.utilisateur.pseudo}"/> /> <br>
-				<label for="prenom">Prénom :</label> <input type="text" name="prenom" <c:out value="${sessionScope.utilisateur.prenom}"/> /> <br>
-				<label for="telephone">Téléphone :</label> <input type="text" name="telephone" <c:out value="${sessionScope.utilisateur.telephone}"/> /> <br>
-				<label for="code_postal">Code postal :</label> <input type="text" name="code_postal" <c:out value="${sessionScope.utilisateur.code_postal}"/> /> <br>
+				<label for="pseudo">Pseudo :</label> <input type="text" name="pseudo" value="${sessionScope.utilisateurConnecte.pseudo}" /> <br>
+				<label for="prenom">Prénom :</label> <input type="text" name="prenom" value="${sessionScope.utilisateurConnecte.prenom}"/> <br>
+				<label for="telephone">Téléphone :</label> <input type="text" name="telephone" value="${sessionScope.utilisateurConnecte.telephone}"/> <br>
+				<label for="codePostal">Code postal :</label> <input type="text" name="code_postal" value="${sessionScope.utilisateurConnecte.codePostal}"/> <br>
 				<label for="mdpactuel">Mot de passe actuel :</label> <input type="password" name="mdpactuel" /> <br>
 				<label for="nouveaumdp">Nouveau mot de passe :</label> <input type="password" name="nouveaumdp" /> <br>
 			</div>
 			<div class="champs-droite">
-				<label for="nom">Nom :</label> <input type="text" name="nom" <c:out value="${sessionScope.utilisateur.nom}"/> /> <br>
-				<label for="email">Email :</label> <input type="text" name="email" <c:out value="${sessionScope.utilisateur.email}"/> /> <br>
-				<label for="rue">Rue :</label> <input type="text" name="rue" <c:out value="${sessionScope.utilisateur.rue}"/> /> <br>
-				<label for="ville">Ville :</label> <input type="text" name="ville" <c:out value="${sessionScope.utilisateur.ville}"/> /> <br>
+				<label for="nom">Nom :</label> <input type="text" name="nom" value="${sessionScope.utilisateurConnecte.nom}"/> <br>
+				<label for="email">Email :</label> <input type="text" name="email" value="${sessionScope.utilisateurConnecte.email}"/> <br>
+				<label for="rue">Rue :</label> <input type="text" name="rue" value="${sessionScope.utilisateurConnecte.rue}"/> <br>
+				<label for="ville">Ville :</label> <input type="text" name="ville" value="${sessionScope.utilisateurConnecte.ville}"/> <br>
 				<label for="confirmation">Confirmation :</label> <input type="password" name="confirmation"/> <br>
+				<label for="credit">Crédit :</label> ${sessionScope.utilisateurConnecte.credit}
 			</div>
 			<div class="boutons">
-				<input type="submit" name="valider" value="Enregistrer"
-					class="valider">
+				<input type="submit" name="valider" value="Enregistrer" class="bouton">
 				<!--   </form> -->
-				<input type="submit" value="Supprimer" class="annuler">
+				<input type="submit" value="Supprimer" class="bouton">
 				<!--  </form> -->
 			</div>
 		</form>
 		<br>
 	</div>
 
-
-	<label for="credit">Crédit</label> <%=session.getAttribute("credit")%>
 
 
 

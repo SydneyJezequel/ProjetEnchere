@@ -54,7 +54,7 @@ public class Utilisateur implements Serializable {
 	 * @param administrateur
 	 */
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
+		String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
 		setPseudo(pseudo);
 		setNom(nom);
 		setPrenom(prenom);
@@ -74,6 +74,12 @@ public class Utilisateur implements Serializable {
 		setNoUtilisateur(noUtilisateur);
 	}
 
+	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
+			String rue, String codePostal, String ville, String motDePasse, int credit) {
+		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, 1000, false);
+		setNoUtilisateur(noUtilisateur);
+	}
+	
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
 		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit, administrateur);

@@ -19,7 +19,7 @@ public class UtilisateurManager {
 	private List<Utilisateur> utilisateurs = new ArrayList<>();
 
 	// Constructeur :
-	private UtilisateurManager() throws SQLException {
+	private UtilisateurManager() throws BusinessException {
 		utilisateurs = DAOFactory.getUtilisateurDAO().selectAll();
 	}
 
@@ -27,10 +27,11 @@ public class UtilisateurManager {
 	 * Méthode de type Singleton.
 	 * 
 	 * @return Une Instance de la classe UtilisateurManager.
+	 * @throws BusinessException 
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public static UtilisateurManager getInstance() throws SQLException {
+	public static UtilisateurManager getInstance() throws BusinessException {
 		if (instance == null) {
 			instance = new UtilisateurManager();
 		}
@@ -56,12 +57,13 @@ public class UtilisateurManager {
 	 * 
 	 * @param pseudo et mot de passe de l'utilisateur.
 	 * @return Renvoie un booléen.
+	 * @throws SQLException 
 	 * @Etapes Récupère la saisie utilisateur, réalise les contrôle sur cette saisie
 	 *         à l'aide de la méthode getUtilisateurByPseudo().
 	 * @throws Exception : Les exceptions sont propagées depuis la classe
 	 *                   UtilisateurDAOJdbcImpl.
 	 */
-	public boolean ControleDeConnexion(String pseudo, String mp) throws Exception {
+	public boolean ControleDeConnexion(String pseudo, String mp) throws BusinessException {
 		boolean ok = false;
 		Utilisateur utilisateur = instance.getUtilisateurByPseudo(pseudo);
 		if (utilisateur != null) {
@@ -83,7 +85,7 @@ public class UtilisateurManager {
 	 * @throws SQLException : Les exceptions sont propagées depuis la classe
 	 *                      UtilisateurDAOJdbcImpl.
 	 */
-	public Utilisateur getUtilisateurByPseudo(String pseudo) throws SQLException {
+	public Utilisateur getUtilisateurByPseudo(String pseudo) throws BusinessException {
 		return DAOFactory.getUtilisateurDAO().selectUtilisateurByPseudo(pseudo);
 	}
 
@@ -100,7 +102,7 @@ public class UtilisateurManager {
 	 * @throws SQLException : Les exceptions sont propagées depuis la classe
 	 *                      UtilisateurDAOJdbcImpl.
 	 */
-	public boolean VerifMdpActuel(String pseudo, String mpactuel) throws SQLException {
+	public boolean VerifMdpActuel(String pseudo, String mpactuel) throws BusinessException {
 		boolean identique = false;
 		Utilisateur utilisateur = DAOFactory.getUtilisateurDAO().selectUtilisateurByPseudo(pseudo);
 		String mpBDD = utilisateur.getMotDePasse();
@@ -120,52 +122,19 @@ public class UtilisateurManager {
 	 * @throws Exception : Les exceptions sont propagées depuis la classe
 	 *                   UtilisateurDAOJdbcImpl.
 	 */
-	public void updateUtilisateur(Utilisateur utilisateur) throws Exception {
-		Utilisateur utilisateurBDD = UtilisateurManager.getInstance().getUtilisateurById(utilisateur.getNoUtilisateur());
-		/* Afficher les valeurs par défaut - Debut - */
-		HttpServletRequest request=null;
-		HttpSession session = request.getSession(true);
-		session.setAttribute("utilisateur", utilisateurBDD);
-		/* Afficher les valeurs par défaut - Fin - */
-		int id = utilisateurBDD.getNoUtilisateur();
-		String pseudo = utilisateur.getPseudo();
-		String nom = utilisateur.getNom();
-		String prenom = utilisateur.getPrenom();
-		String email = utilisateur.getEmail();
-		String telephone = utilisateur.getTelephone();
-		String rue = utilisateur.getRue();
-		String code_postal = utilisateur.getCodePostal();
-		String ville = utilisateur.getVille();
+	public void updateUtilisateur(Utilisateur utilisateur) throws BusinessException {
 		String mp = utilisateur.getMotDePasse();
-		if (utilisateur.getPseudo().isEmpty()) {
-			pseudo = utilisateurBDD.getPseudo();
+		BusinessException businessException = new BusinessException();
+		this.validerUtilisateur(utilisateur, mp, businessException);
+		if(!businessException.hasErreurs())
+		{
+			DAOFactory.getUtilisateurDAO().updateUtilisateur(utilisateur);
 		}
-		if (utilisateur.getNom().isEmpty()) {
-			nom = utilisateurBDD.getNom();
+		else
+		{
+			businessException.ajouterErreur(CodesResultatBLL.VALIDATION_UTILISATEUR_ERREUR); // Cette erreur se déclenche car les autres se déclenchent.
+			throw businessException;
 		}
-		if (utilisateur.getPrenom().isEmpty()) {
-			prenom = utilisateurBDD.getPrenom();
-		}
-		if (utilisateur.getEmail().isEmpty()) {
-			email = utilisateurBDD.getEmail();
-		}
-		if (utilisateur.getTelephone().isEmpty()) {
-			telephone = utilisateurBDD.getTelephone();
-		}
-		if (utilisateur.getRue().isEmpty()) {
-			rue = utilisateurBDD.getRue();
-		}
-		if (utilisateur.getCodePostal().isEmpty()) {
-			code_postal = utilisateurBDD.getCodePostal();
-		}
-		if (utilisateur.getVille().isEmpty()) {
-			ville = utilisateurBDD.getVille();
-		}
-		if (utilisateur.getMotDePasse().isEmpty()) {
-			mp = utilisateurBDD.getMotDePasse();
-		}
-		utilisateur = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mp);
-		DAOFactory.getUtilisateurDAO().updateUtilisateur(utilisateur);
 	}	
 
 	
@@ -210,7 +179,7 @@ public class UtilisateurManager {
 	 * @throws Exception
 	 */
 		public void validerUtilisateur(Utilisateur u, String confirmation, BusinessException businessException) throws BusinessException {
-		if (u == null) {
+		 if (u == null) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_NULL_ERREUR);
 		}
 		// Les attributs des utilisateurs sont obligatoires sauf pour le téléphone
@@ -226,10 +195,10 @@ public class UtilisateurManager {
 		if (u.getEmail() == null || u.getEmail().isBlank() || u.getEmail().trim().length() > 30 || !u.getEmail().trim().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_EMAIL_ERREUR);
 		}
-		if (u.getTelephone() == null || u.getTelephone().isBlank() || u.getTelephone().trim().length() > 15 || !u.getTelephone().trim().matches("^\\d{10}$")) {
+		if (u.getTelephone().trim().length() > 15 || ( !u.getTelephone().isBlank() && !u.getTelephone().trim().matches("^\\d{10,15}$"))) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_TELEPHONE_ERREUR);
 		}
-		if (u.getRue() == null || u.getRue().isBlank() || u.getRue().trim().length() > 30 || !u.getRue().trim().matches("^[a-zA-Z0-9]*$")) {
+		if (u.getRue() == null || u.getRue().isBlank() || u.getRue().trim().length() > 30 || !u.getRue().trim().matches("^[a-zA-Z0-9 ]*$")) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_RUE_ERREUR);
 		}
 		if (u.getCodePostal() == null || u.getCodePostal().isBlank() || u.getCodePostal().trim().length() > 10 || !u.getCodePostal().trim().matches("^\\d{5}$")) {
@@ -248,6 +217,9 @@ public class UtilisateurManager {
 		if (confirmation==null || confirmation.isBlank() || !u.getMotDePasse().equals(confirmation)) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEUR_CONFIRMATION_ERREUR);
 		}
+		 
+		 
+		 
 		
 		
 	}

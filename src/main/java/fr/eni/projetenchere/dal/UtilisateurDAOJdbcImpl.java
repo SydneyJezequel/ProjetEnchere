@@ -64,10 +64,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	 *         la méthode "map(rs)".
 	 * @throws SQLException : Propagation d'une erreur de type SQLException.
 	 */
-	public Utilisateur selectUtilisateurByPseudo(String pseudo) throws SQLException {
+	public Utilisateur selectUtilisateurByPseudo(String pseudo) throws BusinessException {
 		Utilisateur utilisateur = null;
-		Connection cnx = ConnectionProvider.getConnection();
+		Connection cnx;
 		try {
+			cnx = ConnectionProvider.getConnection();
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_NAME);
 			pstmt.setString(1, pseudo);
 			ResultSet rs = pstmt.executeQuery();
@@ -90,12 +91,12 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	 *         paramétré.
 	 * @throws Exception : propagée sur les couches supérieures.
 	 */
-	public void updateUtilisateur(Utilisateur utilisateur) throws SQLException, DALException {
+	public void updateUtilisateur(Utilisateur utilisateur) throws BusinessException {
 			Connection cnx = null;
 			PreparedStatement pstmt = null;
 			System.out.println("Test 1 DAL "+utilisateur.getPseudo()); // Test 3 : La valeur transmise de la couche BLL n'arrive pas jusqu'ici. Résultat : "NULL".
-			cnx = ConnectionProvider.getConnection();
 			try {
+				cnx = ConnectionProvider.getConnection();
 				cnx.setAutoCommit(false);
 				pstmt = cnx.prepareStatement(UPDATE_UTILISATEURS);
 				pstmt.setString(1, utilisateur.getPseudo());
@@ -111,11 +112,22 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				pstmt.executeUpdate();
 				cnx.commit();
 			} catch (SQLException e) {
-				cnx.rollback();
-				throw new DALException("Update Utilisateur failed - ", e);
+				try {
+					cnx.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(10000);
+				throw be;
 			} finally {
-				cnx.setAutoCommit(true);
-				ConnectionProvider.seDeconnecter(cnx, pstmt);
+				try {
+					cnx.setAutoCommit(true);
+					ConnectionProvider.seDeconnecter(cnx, pstmt);
+				} catch (SQLException | DALException e) {
+					e.printStackTrace();
+				}
+
 			}
 	}
 
@@ -163,7 +175,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	 *                      cette méthodes.
 	 */
 	@Override
-	public List<Utilisateur> selectAll() {
+	public List<Utilisateur> selectAll() throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -100,10 +100,6 @@ public class ModifierProfil extends HttpServlet {
 				prenom = request.getParameter("prenom");
 				email = request.getParameter("email");
 				telephone = request.getParameter("telephone");
-				if (telephone.equals(null)){
-					telephone = "";
-				}
-				System.out.println(telephone); // Test 1 
 				rue = request.getParameter("rue");
 				codePostal = request.getParameter("code_postal");
 				ville = request.getParameter("ville");
@@ -116,29 +112,23 @@ public class ModifierProfil extends HttpServlet {
 							nouveaumdp = utilisateurModifie.getMotDePasse();
 						}
 						utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, nouveaumdp, credit);
-						// Les valeurs sont bien récupérées :
-						System.out.println("TEST SERVLET - pseudo : "+utilisateurModifie.getPseudo()); // TEST 2
-						System.out.println("TEST SERVLET - nom : "+utilisateurModifie.getNom()); // TEST 2
-						System.out.println("TEST SERVLET - prenom : "+utilisateurModifie.getPrenom()); // TEST 2
-						System.out.println("TEST SERVLET - email : "+utilisateurModifie.getEmail()); // TEST 2
-						System.out.println("TEST SERVLET - rue : "+utilisateurModifie.getRue()); // TEST 2
-						System.out.println("TEST SERVLET - codePostal : "+utilisateurModifie.getCodePostal()); // TEST 2
-						System.out.println("TEST SERVLET - ville : "+utilisateurModifie.getVille()); // TEST 2
-						System.out.println("TEST SERVLET - credit  : "+utilisateurModifie.getCredit()); // TEST 2
-						System.out.println("TEST SERVLET - Telephone : "+utilisateurModifie.getTelephone()); // TEST 2
 						UtilisateurManager.getInstance().updateUtilisateur(utilisateurModifie);
+						Utilisateur majUtilisateur = UtilisateurManager.getInstance().getUtilisateurById(id);
+						session.setAttribute("majUtilisateur", majUtilisateur);
 						modifie = "Votre Profil a été modifié.";
 					} else {
 						modifie = "Les mots de passes renseignés ne concordent pas ou le mot de passe actuel renseigné est incorrect.";
 					}
-				
-				session.setAttribute("modifie", modifie);
+				request.setAttribute("modifie", modifie);
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/afficher_profil.jsp"); 
 				}
 		} catch (BusinessException e) {
 			e.printStackTrace();
 			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 		rd.forward(request, response);
 		}

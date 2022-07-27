@@ -1,6 +1,10 @@
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,6 +86,24 @@ input[type=submit] {
 	display: inline;
 	outline: solid #A23;
 }
+
+.bouton {
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+	background-color: #1c87c9;
+	border: none;
+	color: black;
+	padding: 20px 34px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 20px;
+	margin: 4px 2px;
+	border-radius : 10px;
+	cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -90,30 +112,32 @@ input[type=submit] {
 	<br>
 	<br>
 
+
+
+<!-- Message de validation -->
+	<%
+	if (request.getAttribute("modifie") != null) {
+	%>
+	<p>
+		<%=request.getAttribute("modifie")%>
+	</p>
+	<%}%>
+
+
+
 	<!-- Récupération des données -->
-	<%String pseudo = (String) session.getAttribute("id");%>
-	<%String nom = (String) session.getAttribute("nom");%>
-	<%String prenom = (String) session.getAttribute("prenom");%>
-	<%String email = (String) session.getAttribute("email");%>
-	<%String telephone = (String) session.getAttribute("telephone");%>
-	<%String rue = (String) session.getAttribute("rue");%>
-	<%String codePostal = (String) session.getAttribute("codePostal");%>
-	<%String ville = (String) session.getAttribute("ville");%>
+	<label for="pseudo">Pseudo :</label>${sessionScope.majUtilisateur.pseudo}<br>
+	<label for="nom">Nom :</label>${sessionScope.majUtilisateur.nom}<br>
+	<label for="prenom">Prénom :</label>${sessionScope.majUtilisateur.prenom}<br>
+	<label for="email">Email :</label>${sessionScope.majUtilisateur.email}<br>
+	<label for="telephone">Téléphone :</label>${sessionScope.majUtilisateur.telephone}<br>
+	<label for="rue">Rue :</label>${sessionScope.majUtilisateur.rue}<br>
+	<label for="codePostal">Code postal :</label>${sessionScope.majUtilisateur.codePostal}<br>
+	<label for="ville">Ville :</label>${sessionScope.majUtilisateur.ville}<br>
 
-
-	<label for="pseudo">Pseudo :</label><%=pseudo%><br><br>
-	<label for="nom">Nom :</label><%=nom%><br>
-	<label for="prenom">Prénom :</label><%=prenom%><br>
-	<label for="email">Email :</label><%=email%><br>
-	<label for="telephone">Téléphone :</label><%=telephone%><br>
-	<label for="rue">Rue :</label><%=rue%><br>
-	<label for="codePostal">Code postal :</label><%=codePostal%><br>
-	<label for="ville">Ville :</label><%=ville%><br>
-
-
-<!-- A compléter avec Styve. -->
-<input type="submit" value="Supprimer" class="annuler">
-<a href="<%=request.getContextPath()%>/modifierprofil">Modifier Profil</a>
+	<!-- Boutons -->
+	<a href="<%=request.getContextPath()%>/supprimerprofil" class="bouton">Supprimer Profil</a>
+	<a href="<%=request.getContextPath()%>/modifierprofil" class="bouton">Modifier Profil</a>
 
 
 </body>

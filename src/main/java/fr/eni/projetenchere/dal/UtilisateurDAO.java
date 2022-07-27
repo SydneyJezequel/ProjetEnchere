@@ -35,7 +35,7 @@ public interface UtilisateurDAO {
 	 * @throws SQLException propage l'exception SQL aux méthdodes qui appellent
 	 *                      cette méthode.
 	 */
-	public Utilisateur selectUtilisateurByPseudo(String pseudo) throws SQLException;
+	public Utilisateur selectUtilisateurByPseudo(String pseudo) throws BusinessException;
 
 	/**
 	 * Méthode mettant à jour un Utilisateur en BDD.
@@ -44,7 +44,7 @@ public interface UtilisateurDAO {
 	 * @throws Exception propage l'exception aux méthdodes qui appellent cette
 	 *                   méthode.
 	 */
-	public void updateUtilisateur(Utilisateur utilisateur) throws SQLException, DALException;
+	public void updateUtilisateur(Utilisateur utilisateur) throws BusinessException;
 
 	/*
 	 * Méthode renvoyant tous les utilisateurs de la BDD.
@@ -52,7 +52,7 @@ public interface UtilisateurDAO {
 	 * @throws SQLException propage l'exception SQL aux méthdodes qui appellent
 	 * cette méthode.
 	 */
-	public List<Utilisateur> selectAll() throws SQLException;
+	public List<Utilisateur> selectAll() throws BusinessException;
 
 	
 
