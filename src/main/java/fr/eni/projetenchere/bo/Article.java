@@ -2,6 +2,7 @@ package fr.eni.projetenchere.bo;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -10,15 +11,17 @@ public class Article implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	
+	
 	// Attributs :
 	private int noArticle;
 	private String nomArticle;
 	private String description;
 	private InputStream photoArticle; 
-	private LocalDate dateDebutEncheres;
-	private LocalDate dateFinEncheres;
-	private double prixInitial;
-	private double prixVente;
+	private Date dateDebutEncheres;
+	private Date dateFinEncheres;
+	private int prixInitial;
+	private int prixVente;
 	private Utilisateur utilisateur;
 	private Categorie categorie;
 	
@@ -27,7 +30,7 @@ public class Article implements Serializable{
 	// Constructeurs :
 	public Article() {}
 	
-	public Article(String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categorie categorie) {
+	public Article(String nomArticle, String description, InputStream photoArticle, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial, Utilisateur utilisateur, Categorie categorie) {
 		this();
 		setNomArticle(nomArticle);
 		setDescription(description);
@@ -39,7 +42,7 @@ public class Article implements Serializable{
 		setCategorie(categorie);
 	}
 
-	public Article(int noArticle, String nomArticle, String description, InputStream photoArticle, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, double prixInitial, Utilisateur utilisateur, Categorie categorie) {
+	public Article(int noArticle, String nomArticle, String description, InputStream photoArticle, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial, Utilisateur utilisateur, Categorie categorie) {
 		this(nomArticle, description, photoArticle, dateDebutEncheres, dateFinEncheres, prixInitial, utilisateur, categorie);
 		setNoArticle(noArticle);
 	}
@@ -70,35 +73,35 @@ public class Article implements Serializable{
 		this.description = description;
 	}
 
-	public LocalDate getDateDebutEncheres() {
+	public Date getDateDebutEncheres() {
 		return dateDebutEncheres;
 	}
 
-	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
+	public void setDateDebutEncheres(Date dateDebutEncheres) {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
-	public LocalDate getDateFinEncheres() {
+	public Date getDateFinEncheres() {
 		return dateFinEncheres;
 	}
 
-	public void setDateFinEncheres(LocalDate dateFinEncheres) {
+	public void setDateFinEncheres(Date dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
 
-	public double getPrixInitial() {
+	public int getPrixInitial() {
 		return prixInitial;
 	}
 
-	public void setPrixInitial(double prixInitial) {
+	public void setPrixInitial(int prixInitial) {
 		this.prixInitial = prixInitial;
 	}
 
-	public double getPrixVente() {
+	public int getPrixVente() {
 		return prixVente;
 	}
 
-	public void setPrixVente(double prixVente) {
+	public void setPrixVente(int prixVente) {
 		this.prixVente = prixVente;
 	}
 

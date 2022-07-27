@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.projetenchere.BusinessException;
 import fr.eni.projetenchere.bll.UtilisateurManager;
 import fr.eni.projetenchere.bo.Utilisateur;
 
@@ -37,29 +38,29 @@ public class ModifierProfil extends HttpServlet {
 	 *        la DAL pour récupérer l'utilisateur via le pseudo, renvoie du crédit
 	 *        vers la JSP, Redirection vers la JSP.
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		RequestDispatcher rd = null;
 		try {
 			HttpSession session = request.getSession(true);
 			if (session.getAttribute("id") == null) {
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			} else {
-				String utilisateurConnecte = (String) session.getAttribute("id");
+				String utilisateurConnecte = (String) session.getAttribute("id"); // On charge l'utilisateur de la BDD.
 				Utilisateur utilisateur = new Utilisateur();
 				utilisateur = UtilisateurManager.getInstance().getUtilisateurByPseudo(utilisateurConnecte);
 				int credit = utilisateur.getCredit();
 				session.setAttribute("credit", credit);
-				session.setAttribute("utilisateur", utilisateur);
+				session.setAttribute("utilisateurConnecte", utilisateur);
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/modifier_profil.jsp");
 			}
-		} catch (SQLException e) {
+		} catch (BusinessException e) {
 			e.printStackTrace();
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
 		}
 		rd.forward(request, response);
 	}
 
-	
 	/**
 	 * @doPost : Récupération des champs de modification du Profil & renvoie du
 	 *         message de validation.
@@ -80,8 +81,9 @@ public class ModifierProfil extends HttpServlet {
 		String email = null;
 		String telephone = null;
 		String rue = null;
-		String code_postal = null;
+		String codePostal = null;
 		String ville = null;
+		int credit;
 		String mpactuel = null;
 		String nouveaumdp = null;
 		String confirmation = null;
@@ -91,35 +93,55 @@ public class ModifierProfil extends HttpServlet {
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			} else {
 				Utilisateur utilisateurModifie = new Utilisateur();
-				utilisateurModifie = (Utilisateur) session.getAttribute("utilisateur");
+				utilisateurModifie = (Utilisateur) session.getAttribute("utilisateurConnecte");
 				int id = utilisateurModifie.getNoUtilisateur();
 				pseudo = request.getParameter("pseudo");
 				nom = request.getParameter("nom");
 				prenom = request.getParameter("prenom");
 				email = request.getParameter("email");
 				telephone = request.getParameter("telephone");
+				if (telephone.equals(null)){
+					telephone = "";
+				}
+				System.out.println(telephone); // Test 1 
 				rue = request.getParameter("rue");
-				code_postal = request.getParameter("code_postal");
+				codePostal = request.getParameter("code_postal");
 				ville = request.getParameter("ville");
+				credit = utilisateurModifie.getCredit();
 				mpactuel = request.getParameter("mdpactuel");
 				nouveaumdp = request.getParameter("nouveaumdp");
 				confirmation = request.getParameter("confirmation");
-				utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, nouveaumdp);
-				UtilisateurManager.getInstance().updateUtilisateur(utilisateurModifie);
-				modifie = "Votre Profil a été modifié";
+					if ( (nouveaumdp.equals(confirmation) && utilisateurModifie.getMotDePasse().equals(mpactuel)) || (nouveaumdp.isEmpty() && confirmation.isEmpty()) ) {
+						if (nouveaumdp.isEmpty()) {
+							nouveaumdp = utilisateurModifie.getMotDePasse();
+						}
+						utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, nouveaumdp, credit);
+						// Les valeurs sont bien récupérées :
+						System.out.println("TEST SERVLET - pseudo : "+utilisateurModifie.getPseudo()); // TEST 2
+						System.out.println("TEST SERVLET - nom : "+utilisateurModifie.getNom()); // TEST 2
+						System.out.println("TEST SERVLET - prenom : "+utilisateurModifie.getPrenom()); // TEST 2
+						System.out.println("TEST SERVLET - email : "+utilisateurModifie.getEmail()); // TEST 2
+						System.out.println("TEST SERVLET - rue : "+utilisateurModifie.getRue()); // TEST 2
+						System.out.println("TEST SERVLET - codePostal : "+utilisateurModifie.getCodePostal()); // TEST 2
+						System.out.println("TEST SERVLET - ville : "+utilisateurModifie.getVille()); // TEST 2
+						System.out.println("TEST SERVLET - credit  : "+utilisateurModifie.getCredit()); // TEST 2
+						System.out.println("TEST SERVLET - Telephone : "+utilisateurModifie.getTelephone()); // TEST 2
+						UtilisateurManager.getInstance().updateUtilisateur(utilisateurModifie);
+						modifie = "Votre Profil a été modifié.";
+					} else {
+						modifie = "Les mots de passes renseignés ne concordent pas ou le mot de passe actuel renseigné est incorrect.";
+					}
+				
 				session.setAttribute("modifie", modifie);
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/afficher_profil.jsp"); 
 				}
-		} catch (Exception e) {
+		} catch (BusinessException e) {
 			e.printStackTrace();
+			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
 		} finally {
 		rd.forward(request, response);
 		}
 		}
 
-
-		
-		
-		
 }

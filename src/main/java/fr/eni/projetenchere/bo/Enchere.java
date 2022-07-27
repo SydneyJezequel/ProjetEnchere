@@ -1,6 +1,7 @@
 package fr.eni.projetenchere.bo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 
 
@@ -11,82 +12,65 @@ public class Enchere implements Serializable{
 	
 	
 	// Attributs :
-	private int noRetrait;
-	private String rue;
-	private String codePostal;
-	private String ville;
-	private int noArticle;
-	private Article article;
+	private int noEnchere;
+	private Date dateEnchere;
+	private int montantEnchere;
 	private Utilisateur utilisateur;
-	
+	private Article Articlevendu;
+
 	
 	
 	// Constructeurs :
+	
 	public Enchere() {}
 	
-	public Enchere(String rue, String codePostal, String ville, Article article, Utilisateur utilisateur) {
+	public Enchere(Utilisateur utilisateur, Article articlevendu, Date dateEnchere, int montantEnchere) {
 		this();
-		setRue(rue);
-		setCodePostal(codePostal);
-		setVille(ville);
-		setArticle(article);
+		setDateEnchere(dateEnchere);
+		setMontantEnchere(montantEnchere);
 		setUtilisateur(utilisateur);
+		setArticleVendu(articlevendu);
+	}
+	public Enchere(int noEnchere, Utilisateur utilisateur, Article articlevendu, Date dateEnchere, int montantEnchere) {
+		this(utilisateur, articlevendu, dateEnchere, montantEnchere);
+		setNoEnchere(noEnchere);
 	}
 	
-	public Enchere(int noRetrait, String rue, String codePostal, String ville,  Article article, Utilisateur utilisateur) {
-		this(rue, codePostal, ville, article, utilisateur);
-		setNoRetrait(noRetrait);
+	
+	
+	// Autres méthodes :
+	@Override
+	public String toString() {
+		return "Encheres [noEnchere=" + getNoEnchere() + ", dateEnchere=" + getDateEnchere() + ", montantEnchere="
+				+ getMontantEnchere() + ", noUtilisateur=" + getUtilisateur() + ", noArticle=" + getArticleVendu() + "]";
 	}
 	
 	
 	
 	// Getters & Setters :
-	public int getNoRetrait() {
-		return noRetrait;
+
+	public int getNoEnchere() {
+		return noEnchere;
 	}
 
-	public void setNoRetrait(int noRetrait) {
-		this.noRetrait = noRetrait;
+	public void setNoEnchere(int noEnchere) {
+		this.noEnchere = noEnchere;
 	}
 
-	public String getRue() {
-		return rue;
+	public Date getDateEnchere() {
+		return dateEnchere;
 	}
 
-	public void setRue(String rue) {
-		this.rue = rue;
+	public void setDateEnchere(Date dateEnchere2) {
+		this.dateEnchere = dateEnchere2;
 	}
 
-	public String getCodePostal() {
-		return codePostal;
+	public int getMontantEnchere() {
+		return montantEnchere;
 	}
 
-	public void setCodePostal(String codePostal) {
-		this.codePostal = codePostal;
-	}
-
-	public String getVille() {
-		return ville;
-	}
-
-	public void setVille(String ville) {
-		this.ville = ville;
-	}
-
-	public int getNoArticle() {
-		return noArticle;
-	}
-
-	public void setNoArticle(int noArticle) {
-		this.noArticle = noArticle;
-	}
-
-	public Article getArticle() {
-		return article;
-	}
-
-	public void setArticle(Article article) {
-		this.article = article;
+	public void setMontantEnchere(int montantEnchere) {
+		this.montantEnchere = montantEnchere;
 	}
 
 	public Utilisateur getUtilisateur() {
@@ -97,14 +81,14 @@ public class Enchere implements Serializable{
 		this.utilisateur = utilisateur;
 	}
 
+	public Article getArticleVendu() {
+		return Articlevendu;
+	}
 
-	
-	// Autres méthodes :
-	@Override
-	public String toString() {
-		return "Enchere [noRetrait=" + getNoRetrait()+ ", rue=" + getRue() + ", codePostal=" + getCodePostal() + ", ville=" + getVille()
-				+ ", Article=" + getArticle() + ", utilisateur=" + getUtilisateur() + "]";
+	public void setArticleVendu(Article Articlevendu) {
+		this.Articlevendu = Articlevendu;
 	}	
+	
 	
 	
 	
