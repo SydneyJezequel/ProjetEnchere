@@ -39,6 +39,8 @@ public class ServletInscription extends HttpServlet {
 //		List<Integer> listeCodesErreur=new ArrayList<>();
 //		BusinessException businessException = new BusinessException();
 		
+		
+		
     	int credit = CREDIT;
     	boolean admin = false;
 		//lecture pseudo
