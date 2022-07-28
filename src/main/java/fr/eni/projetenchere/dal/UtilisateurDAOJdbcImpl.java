@@ -91,10 +91,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	 *         paramétré.
 	 * @throws Exception : propagée sur les couches supérieures.
 	 */
-	public void updateUtilisateur(Utilisateur utilisateur) throws BusinessException {
+	public Utilisateur updateUtilisateur(Utilisateur utilisateur) throws BusinessException { // Modif
+			Utilisateur utilisateurMaj= null; // Modif
 			Connection cnx = null;
 			PreparedStatement pstmt = null;
-			System.out.println("Test 1 DAL "+utilisateur.getPseudo()); // Test 3 : La valeur transmise de la couche BLL n'arrive pas jusqu'ici. Résultat : "NULL".
 			try {
 				cnx = ConnectionProvider.getConnection();
 				cnx.setAutoCommit(false);
@@ -111,6 +111,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				pstmt.setInt(10, utilisateur.getNoUtilisateur());
 				pstmt.executeUpdate();
 				cnx.commit();
+				utilisateurMaj = selectUtilisateurById((utilisateur.getNoUtilisateur())); // Modif
 			} catch (SQLException e) {
 				try {
 					cnx.rollback();
@@ -127,7 +128,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				} catch (SQLException | DALException e) {
 					e.printStackTrace();
 				}
-
+				return utilisateurMaj; // Modif
 			}
 	}
 
@@ -220,7 +221,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
                 {
                     utilisateur.setNoUtilisateur(rs.getInt(1));
                 }
-                System.out.println("Utilisateur enregistré");
                 rs.close();
                 pstmt.close();
                 cnx.commit();
@@ -228,11 +228,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             }
             catch(SQLException e)
             {
-            	cnx.rollback();
-//                System.out.println("erreur insert utilisateur - DAL");
-//                throw new SQLException("Erreur insert utilisateur", e);
-                
-                
+            	cnx.rollback();            
     			e.printStackTrace();
     			BusinessException businessException = new BusinessException();
     			businessException.ajouterErreur(CodesResultatDAL.INSERT_UTILISATEUR_ECHEC);

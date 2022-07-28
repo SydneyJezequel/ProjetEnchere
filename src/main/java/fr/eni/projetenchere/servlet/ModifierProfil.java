@@ -74,7 +74,8 @@ public class ModifierProfil extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		RequestDispatcher rd = null;
-		String modifie;
+		Utilisateur majUtilisateur = new Utilisateur(); // Modif.
+		String modifie = null;
 		String pseudo = null;
 		String nom = null;
 		String prenom = null;
@@ -93,8 +94,8 @@ public class ModifierProfil extends HttpServlet {
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			} else {
 				Utilisateur utilisateurModifie = new Utilisateur();
-				utilisateurModifie = (Utilisateur) session.getAttribute("utilisateurConnecte");
-				int id = utilisateurModifie.getNoUtilisateur();
+				utilisateurModifie = (Utilisateur) session.getAttribute("utilisateurConnecte"); 
+				int id = utilisateurModifie.getNoUtilisateur(); 
 				pseudo = request.getParameter("pseudo");
 				nom = request.getParameter("nom");
 				prenom = request.getParameter("prenom");
@@ -107,31 +108,36 @@ public class ModifierProfil extends HttpServlet {
 				mpactuel = request.getParameter("mdpactuel");
 				nouveaumdp = request.getParameter("nouveaumdp");
 				confirmation = request.getParameter("confirmation");
-				if (nouveaumdp.isEmpty() && confirmation.isEmpty() && utilisateurModifie.getMotDePasse().equals(mpactuel)) {
-					nouveaumdp = utilisateurModifie.getMotDePasse();
-					modifie = "Vous n'avez pas indiqué de nouveau mot de passe.";
-				} else if ( nouveaumdp.equals(confirmation) && utilisateurModifie.getMotDePasse().equals(mpactuel) ) {
-					utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, nouveaumdp, credit);
-					UtilisateurManager.getInstance().updateUtilisateur(utilisateurModifie);
-					Utilisateur majUtilisateur = UtilisateurManager.getInstance().getUtilisateurById(id);
-					session.setAttribute("majUtilisateur", majUtilisateur);
-					modifie = "Votre Profil a été modifié.";
-					} else {
-						modifie = "Les mots de passes renseignés ne concordent pas ou le mot de passe actuel renseigné est incorrect.";
+				if ( (nouveaumdp.isEmpty() && confirmation.isEmpty() && utilisateurModifie.getMotDePasse().equals(mpactuel) )
+					|| (nouveaumdp.equals(confirmation) && !nouveaumdp.isEmpty() && mpactuel.isEmpty())
+					|| ( !(nouveaumdp.equals(confirmation)) && utilisateurModifie.getMotDePasse().equals(mpactuel))	
+					) {
+					modifie = "Les mots de passes renseignés ne concordent pas ou le mot de passe actuel renseigné est incorrect.";
+				} else { 
+					if (nouveaumdp.isEmpty() && confirmation.isEmpty() && mpactuel.isEmpty()){
+						nouveaumdp = utilisateurModifie.getMotDePasse();
+					} else if (nouveaumdp.equals(confirmation) && utilisateurModifie.getMotDePasse().equals(mpactuel) ) {
+						nouveaumdp = confirmation;
 					}
+					utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, nouveaumdp, credit);
+					majUtilisateur = UtilisateurManager.getInstance().updateUtilisateur(utilisateurModifie); // Modif.
+					session.setAttribute("utilisateurConnecte", majUtilisateur);
+					modifie = "Votre Profil a été modifié.";
+				}
 				request.setAttribute("modifie", modifie);
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/afficher_profil.jsp"); 
 				}
-		} catch (BusinessException e) {
-			e.printStackTrace();
-			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
-			rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+		}catch(
+
+	BusinessException e)
+	{
+		e.printStackTrace();
+		request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
+		rd = request.getRequestDispatcher("/WEB-INF/jsp/message_erreur.jsp");
+	}finally
+	{
 		rd.forward(request, response);
-		}
-		}
+	}
+}
 
 }

@@ -41,10 +41,11 @@ public interface UtilisateurDAO {
 	 * Méthode mettant à jour un Utilisateur en BDD.
 	 * 
 	 * @param utilisateur est une instance de type Utilisateur.
+	 * @return 
 	 * @throws Exception propage l'exception aux méthdodes qui appellent cette
 	 *                   méthode.
 	 */
-	public void updateUtilisateur(Utilisateur utilisateur) throws BusinessException;
+	public Utilisateur updateUtilisateur(Utilisateur utilisateur) throws BusinessException;
 
 	/*
 	 * Méthode renvoyant tous les utilisateurs de la BDD.
