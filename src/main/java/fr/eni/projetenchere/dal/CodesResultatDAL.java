@@ -35,8 +35,13 @@ public abstract class CodesResultatDAL {
 	 */
 	public static final int SUPPRESSION_UTILISATEUR_ERREUR = 10006;
 	/**
-	 * Erreur à la suppression d'un utilisateur
+	 * Erreur à la lecture d'une enchere en cours
 	 */
+	public static final int LECTURE_ENCHERES_EN_COURS_ECHEC = 10007;
+	/**
+	 * Erreur à la lecture des catégories
+	 */
+	public static final int LECTURE_CATEGORIES_ECHEC = 10008;
 }
 
 
