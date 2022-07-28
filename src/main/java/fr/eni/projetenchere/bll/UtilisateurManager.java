@@ -122,19 +122,21 @@ public class UtilisateurManager {
 	 * @throws Exception : Les exceptions sont propagées depuis la classe
 	 *                   UtilisateurDAOJdbcImpl.
 	 */
-	public void updateUtilisateur(Utilisateur utilisateur) throws BusinessException {
+	public Utilisateur updateUtilisateur(Utilisateur utilisateur) throws BusinessException {
+		Utilisateur utilisateurMaj = new Utilisateur();
 		String mp = utilisateur.getMotDePasse();
 		BusinessException businessException = new BusinessException();
 		this.validerUtilisateur(utilisateur, mp, businessException);
 		if(!businessException.hasErreurs())
 		{
-			DAOFactory.getUtilisateurDAO().updateUtilisateur(utilisateur);
+			utilisateurMaj = DAOFactory.getUtilisateurDAO().updateUtilisateur(utilisateur);
 		}
 		else
 		{
 			businessException.ajouterErreur(CodesResultatBLL.VALIDATION_UTILISATEUR_ERREUR); // Cette erreur se déclenche car les autres se déclenchent.
 			throw businessException;
 		}
+		return utilisateurMaj ;
 	}	
 
 	
