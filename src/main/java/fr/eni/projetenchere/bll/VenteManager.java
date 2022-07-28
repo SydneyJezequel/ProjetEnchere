@@ -63,7 +63,6 @@ public class VenteManager {
 	 * @Param retrait : endroit de retrait.
 	 * @Param enchere : référence de l'enchère.
 	 */
-	
 	public void insertNouvelleVente(Article article, Retrait retrait, Enchere enchere) throws SQLException, BusinessException{
 		DAOFactory.getVenteDAO().insertNouvelleVente(article, retrait, enchere);
 	}
