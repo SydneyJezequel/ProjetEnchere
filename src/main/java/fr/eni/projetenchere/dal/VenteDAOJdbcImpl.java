@@ -1,5 +1,6 @@
 package fr.eni.projetenchere.dal;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,26 +31,29 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 	/**
 	 * Méthode sélectionnant un Utilisateur par son Identifiant.
 	 * 
-	 * @param Identifiant de l'utilisateur.
-	 * @Etapes : La méthode se connecte à la BDD, exécute la requête paramétrée
-	 *         SEELECT_BY_ID, récupère les données sélectionnée en s'appuyant sur la
-	 *         méthode "map(rs)".
+	 * @param : Objets Article, Retrait, Enchere.
+	 * @Etapes : La méthode se connecte à la BDD, exécute 3 requêtes paramétrées
+	 * pour insérer chaque objet passé en paramètre (Article, Retrait, Enchère),
+	 * elle récupère les numéro de lignes générées et les affectent aux objets,
+	 * elle clot la connexion.
 	 * @throws SQLException : Propagation d'une erreur de type SQLException.
+	 * @throws DALException : Propagation d'une erreur de type SQLException.
+	 * @throws DALException : Propagation d'une erreur de type BusinessException.
 	 */
 	@Override
-	public void insertNouvelleVente(Article article, Retrait retrait, Enchere enchere) throws SQLException, BusinessException {
+	public void insertNouvelleVente(Article article, Retrait retrait, Enchere enchere) throws SQLException, BusinessException, DALException {
 		Connection cnx = null;
 		cnx = ConnectionProvider.getConnection();
-		PreparedStatement pstmt1;
-		PreparedStatement pstmt2;
-		PreparedStatement pstmt3;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
 		try {
 			cnx.setAutoCommit(false);
 			// Insertion article :
 			pstmt1 = cnx.prepareStatement(INSERT_ARTICLE, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt1.setString(1, article.getNomArticle());
 			pstmt1.setString(2, article.getDescription());
-			pstmt1.setInputStream(3, article.getPhotoArticle()); // A reprendre
+			pstmt1.setBinaryStream(3, article.getPhotoArticle()); // Contrôler : Si cette partie du code s'exécute correctement ?
 			pstmt1.setInt(4, article.getPrixInitial());
 			pstmt1.setInt(5, article.getPrixVente());
 			pstmt1.setDate(6, article.getDateDebutEncheres());
@@ -57,7 +61,7 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 			pstmt1.setInt(8, article.getCategorie().getNoCategorie());
 			pstmt1.setInt(9, article.getUtilisateur().getNoUtilisateur()); 
 			pstmt1.executeUpdate();
-			ResultSet rs1 = pstmt1.getGeneratedKeys(); // Je récupère la clé générée.
+			ResultSet rs1 = pstmt1.getGeneratedKeys();
 			if (rs1.next()) {
 				article.setNoArticle(rs1.getInt(1));
 			}
@@ -85,7 +89,7 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 			}
 		} catch (SQLException e) {
 			cnx.rollback();
-			throw new DALException("Insert Nouvelle vente failed - ", e);
+			throw new BusinessException();
 		} finally {
 			cnx.setAutoCommit(true);
 			ConnectionProvider.seDeconnecter(cnx, pstmt1);
@@ -97,9 +101,9 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 	
 	
 	/**
-	 * Méthode affichant toutes les catégorie. Elle est utilisée pour le menu
-	 * déroulant de la JSP "NouvelleVente".
-	 * 
+	 * Méthode affichant toutes les catégorie. Elle est utilisée pour le menu déroulant de la JSP "NouvelleVente".
+	 * @Etapes : Cette méthode se connecte à la BDD, Elle exécute la requête paramétrée "SELECT_ALL_CATEGORIE".
+	 * Elle récupère chaque libellé pour les stocker dans un tableau. Elle renvoie ce tableau.
 	 * @throws SQLException et BusinessException propagent les Exceptions de ces
 	 * types aux méthdodes qui appellent insertNouvelleVente().
 	 */
@@ -124,6 +128,8 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 		return listeCate;
 	}
 
+	
+	
 	/**
 	 * Méthode affichant toutes les ventes.
 	 * 
