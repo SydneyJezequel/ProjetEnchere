@@ -27,6 +27,19 @@
 	margin-top : 2em;
 	
 }
+.bloc-id{ 
+	border : 1px solid;
+	border-color:#808080;
+	border-radius: 8px;
+	padding: 20px;
+	box-shadow: 3px 3px 15px #aaa;
+	margin-left: 6em;
+	margin-right: 4em;
+	margin-top : 2em;
+	text-align:center;
+	
+	
+}
 .media{
 	
     width: 200px;

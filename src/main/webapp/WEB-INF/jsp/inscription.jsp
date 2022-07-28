@@ -1,14 +1,22 @@
 <%@page import="fr.eni.projetenchere.messages.LecteurMessage"%>
 <%@page import="java.util.List"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.ArrayList"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
+	pageEncoding="UTF-8"%>
+<%@ include file="../jspf/header.jspf"%>
+
 <meta charset="UTF-8">
-<title>Inscription</title>
+
 <!-- <link href="<%=request.getContextPath() %>/css/style.css" rel="stylesheet">  -->
+<div>
+	<div class="col-lg-12 text-right">
+		<a href="<%=request.getContextPath()%>/accueil">Accueil
+			- </a> <a href="<%=request.getContextPath()%>/Connexion">Se connecter</a>
+	</div>
+</div>
+</header>
+
 <style type="text/css">
         h1 {
         	text-align:left;
@@ -87,12 +95,8 @@
 			color:#C00;
 			
 		}
-
-
 </style>
-</head>
-<body>
-	<h1>ENI Enchères</h1>
+
 
 
 	<h2>Mon Profil</h2>

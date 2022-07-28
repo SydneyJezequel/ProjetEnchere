@@ -6,9 +6,14 @@
 	<display-name>ProjetEnchere</display-name>
 
 <!-- A NETTOYER : AVOIR UNE SEULE PAGE WELCOME FILE : url Servlet de démarrage -->
-	<welcome-file-list>
-		<welcome-file>accueil.jsp</welcome-file>
-	</welcome-file-list>
+	<welcome-file-list>		
+	    <welcome-file>accueil.html</welcome-file>
+	    <welcome-file>accueil.htm</welcome-file>
+	    <welcome-file>accueil.jsp</welcome-file>
+	    <welcome-file>default.html</welcome-file>
+	    <welcome-file>default.htm</welcome-file>
+	    <welcome-file>default.jsp</welcome-file>
+  	</welcome-file-list>
 
 
 
