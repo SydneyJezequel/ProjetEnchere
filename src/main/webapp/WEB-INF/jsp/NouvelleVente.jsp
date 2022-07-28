@@ -35,13 +35,13 @@
 				<label for="description">Description :</label> <textarea name="description"></textarea> <br> 
 				<label for="categorie">Catégorie :</label> 
 				<select name="categorie">
-					<c:forEach var="item" items="${ListeCategories}">
-						<option value="${ListeCategories.key}">${ListeCategories.value}</option>
-					</c:forEach>
+    				<c:forEach var="categorie" items="${sessionScope.listeCate.items}">
+    					<option>${item}</option>
+    				</c:forEach>
 				</select> <br>
 				<label for="photoArticle">Photo de l'article :</label> <input type="file" name="photoArticle" accept="image/png, image/jpeg"> <br>
 				<label for="prixDepart">Mise à prix :</label> <input type="number" name="prixDepart" value="0" min="0"> <br>
-				<label for="debutEnchere">Début de l'enchère :</label> <input type="date" name="debutEnchere" value="${date.value}" min="${date.value}" /> <br>
+				<label for="debutEnchere">Début de l'enchère :</label> <input type="date" name="debutEnchere" value="${sessionScope.date}" min="${sessionScope.date}" /> <br>
 				<label for="finEnchere">Fin de l'enchère :</label> <input type="date" name="finEnchere" /> <br>
 			</div>
 			<div class="champs-droite">

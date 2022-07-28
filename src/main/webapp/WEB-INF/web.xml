@@ -49,7 +49,7 @@
 
 	<servlet>
 		<servlet-name>VendreArticle</servlet-name>
-		<servlet-class>fr.eni.projetenchere.servlet.VendreArticle</servlet-class>
+		<servlet-class>fr.eni.projetenchere.servlet.NouvelleVente</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>VendreArticle</servlet-name>
@@ -114,7 +114,7 @@
 	
 	<servlet>
 		<servlet-name>VenteArticle</servlet-name>
-		<jsp-file>/WEB-INF/jsp/VendreArticle.jsp</jsp-file>
+		<jsp-file>/WEB-INF/jsp/NouvelleVente.jsp</jsp-file>
 	</servlet>
 
 

@@ -107,15 +107,15 @@ public class ModifierProfil extends HttpServlet {
 				mpactuel = request.getParameter("mdpactuel");
 				nouveaumdp = request.getParameter("nouveaumdp");
 				confirmation = request.getParameter("confirmation");
-					if ( (nouveaumdp.equals(confirmation) && utilisateurModifie.getMotDePasse().equals(mpactuel)) || (nouveaumdp.isEmpty() && confirmation.isEmpty()) ) {
-						if (nouveaumdp.isEmpty()) {
-							nouveaumdp = utilisateurModifie.getMotDePasse();
-						}
-						utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, nouveaumdp, credit);
-						UtilisateurManager.getInstance().updateUtilisateur(utilisateurModifie);
-						Utilisateur majUtilisateur = UtilisateurManager.getInstance().getUtilisateurById(id);
-						session.setAttribute("majUtilisateur", majUtilisateur);
-						modifie = "Votre Profil a été modifié.";
+				if (nouveaumdp.isEmpty() && confirmation.isEmpty() && utilisateurModifie.getMotDePasse().equals(mpactuel)) {
+					nouveaumdp = utilisateurModifie.getMotDePasse();
+					modifie = "Vous n'avez pas indiqué de nouveau mot de passe.";
+				} else if ( nouveaumdp.equals(confirmation) && utilisateurModifie.getMotDePasse().equals(mpactuel) ) {
+					utilisateurModifie = new Utilisateur(id, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, nouveaumdp, credit);
+					UtilisateurManager.getInstance().updateUtilisateur(utilisateurModifie);
+					Utilisateur majUtilisateur = UtilisateurManager.getInstance().getUtilisateurById(id);
+					session.setAttribute("majUtilisateur", majUtilisateur);
+					modifie = "Votre Profil a été modifié.";
 					} else {
 						modifie = "Les mots de passes renseignés ne concordent pas ou le mot de passe actuel renseigné est incorrect.";
 					}
