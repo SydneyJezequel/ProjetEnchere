@@ -16,7 +16,7 @@
 
 <body>
 
-
+	<img src="./images/logo_eni_encheres.png" alt="" name="Logo Eni Enchères" class="logo">
 
 	<h1>ENI Enchères</h1>
 	<br>
@@ -40,12 +40,13 @@
 					</c:forEach>
 				</select> <br>
 				<label for="photoArticle">Photo de l'article :</label> <input type="file" name="photoArticle" accept="image/png, image/jpeg"> <br>
-				<label for="prixDepart">Mise à prix :</label> <input id="number" type="number" value="0" min="0"> <br>
-				<label for="debutEnchere">Début de l'enchère :</label> <input type="date" min="${date.value}" name="debutEnchere" /> <br>
+				<label for="prixDepart">Mise à prix :</label> <input type="number" name="prixDepart" value="0" min="0"> <br>
+				<label for="debutEnchere">Début de l'enchère :</label> <input type="date" name="debutEnchere" value="${date.value}" min="${date.value}" /> <br>
 				<label for="finEnchere">Fin de l'enchère :</label> <input type="date" name="finEnchere" /> <br>
 			</div>
 			<div class="champs-droite">
-				<label>Retrait</label> <label for="rue">Rue :</label> <input type="text" name="rue" value="${utilisateurConnecte.rue}"/> <br> 
+				<label>Retrait</label>
+				<label for="rue">Rue :</label> <input type="text" name="rue" value="${utilisateurConnecte.rue}"/> <br> 
 				<label for="codePostal">Code Postal :</label> <input type="text" name="codePostal" value="${utilisateurConnecte.codePostal}"/> <br>
 				<label for="ville">Ville :</label> <input type="text" name="ville" value="${utilisateurConnecte.ville}"/> <br>
 			</div>
