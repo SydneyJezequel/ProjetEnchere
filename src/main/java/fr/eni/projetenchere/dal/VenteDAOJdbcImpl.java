@@ -20,9 +20,9 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 	}
 
 	// Requêtes paramétrées :
-	private static final String SELECT_ALL_CATEGORIE = "SELECT no_categorie,libelle  FROM Categorie";
-	private static final String INSERT_ARTICLE = "INSERT INTO Articles (nom_article, description, photo_article, prix_initial, prix_vente, date_debut_enchere, date_fin_enchere, no_categorie, no_utilisateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String INSERT_RETRAIT = "INSERT INTO Retraits (rue, code_postal, ville, no_article) VALUES (?, ?, ?, ?)";
+	private static final String SELECT_ALL_CATEGORIE = "SELECT libelle FROM Categories";
+	private static final String INSERT_ARTICLE = "INSERT INTO Articles (nom_article, description, photo_article, prix_initial, prix_vente, date_debut_encheres, date_fin_encheres, no_categorie, no_utilisateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_RETRAIT = "INSERT INTO Retraits (no_article, rue, code_postal, ville) VALUES (?, ?, ?, ?)";
 	private static final String INSERT_ENCHERE = "INSERT INTO Encheres (date_enchere, montant_enchere, no_utilisateur, no_article) VALUES (?, ?, ?, ?)";
 
 	/*-------------------------------------- METHODES -------------------------------------- */
@@ -37,8 +37,7 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 	 * @throws SQLException : Propagation d'une erreur de type SQLException.
 	 */
 	@Override
-	public void insertNouvelleVente(Article article, Retrait retrait, Enchere enchere)
-			throws SQLException, BusinessException {
+	public void insertNouvelleVente(Article article, Retrait retrait, Enchere enchere) throws SQLException, BusinessException {
 		Connection cnx = null;
 		cnx = ConnectionProvider.getConnection();
 		PreparedStatement pstmt1;
@@ -51,12 +50,12 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 			pstmt1.setString(1, article.getNomArticle());
 			pstmt1.setString(2, article.getDescription());
 			pstmt1.setInputStream(3, article.getPhotoArticle()); // A reprendre
-			pstmt1.setDouble(4, article.getPrixInitial());
-			pstmt1.setDouble(5, article.getPrixVente());
-			pstmt1.setDate(6, article.getDateDebutEncheres()); // A reprendre.
+			pstmt1.setInt(4, article.getPrixInitial());
+			pstmt1.setInt(5, article.getPrixVente());
+			pstmt1.setDate(6, article.getDateDebutEncheres());
 			pstmt1.setDate(7, article.getDateFinEncheres());
 			pstmt1.setInt(8, article.getCategorie().getNoCategorie());
-			pstmt1.setInt(9, article.getUtilisateur().getNoUtilisateur()); // A reprendre.
+			pstmt1.setInt(9, article.getUtilisateur().getNoUtilisateur()); 
 			pstmt1.executeUpdate();
 			ResultSet rs1 = pstmt1.getGeneratedKeys(); // Je récupère la clé générée.
 			if (rs1.next()) {
@@ -77,8 +76,8 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 			pstmt3 = cnx.prepareStatement(INSERT_ENCHERE, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt3.setDate(1, enchere.getDateEnchere());
 			pstmt3.setDouble(2, enchere.getMontantEnchere());
-			pstmt3.setInt(3, enchere.getNoUtilisateur());
-			pstmt3.setInt(4, enchere.getNoArticle());
+			pstmt3.setInt(3, enchere.getUtilisateur().getNoUtilisateur());
+			pstmt3.setInt(4, enchere.getArticleVendu().getNoArticle());
 			pstmt3.executeUpdate();
 			ResultSet rs3 = pstmt3.getGeneratedKeys();
 			if (rs3.next()) {
@@ -97,7 +96,7 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 
 	
 	
-	/*
+	/**
 	 * Méthode affichant toutes les catégorie. Elle est utilisée pour le menu
 	 * déroulant de la JSP "NouvelleVente".
 	 * 
@@ -107,7 +106,6 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 	public List<Categorie> selectAllCategories() throws SQLException, BusinessException {
 		Categorie categorie;
 		List<Categorie> listeCate = new ArrayList();
-		int noCategorie;
 		String libelle;
 		Connection cnx1 = null;
 		PreparedStatement pstmt = null;
@@ -116,9 +114,8 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 			pstmt = cnx1.prepareStatement(SELECT_ALL_CATEGORIE);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				noCategorie = rs.getInt("no_categorie");
 				libelle = rs.getString("libelle");
-				categorie = new Categories(noCategorie, libelle);
+				categorie = new Categorie(libelle);
 				listeCate.add(categorie);
 			}
 		} catch (SQLException e) {
@@ -127,7 +124,7 @@ public class VenteDAOJdbcImpl implements VenteDAO {
 		return listeCate;
 	}
 
-	/*
+	/**
 	 * Méthode affichant toutes les ventes.
 	 * 
 	 * @throws SQLException et BusinessException propagent les Exceptions de ces
