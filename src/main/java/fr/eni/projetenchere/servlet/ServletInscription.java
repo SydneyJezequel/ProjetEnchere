@@ -43,6 +43,7 @@ public class ServletInscription extends HttpServlet {
 		
 		
 		
+		
     	int credit = CREDIT;
     	boolean admin = false;
 		//lecture pseudo
