@@ -12,8 +12,8 @@ public abstract class DAOFactory {
 	}
 	
 	
-	public static ListeEncheresDAO getListeEncheresDAO() {
-		return new ListeEncheresDAOJdbcImpl();
+	public static EnchereEnCoursDAO getListeEncheresDAO() {
+		return new EnchereEnCoursDAOJdbcImpl();
 	}
 
 

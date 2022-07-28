@@ -42,6 +42,18 @@ public abstract class CodesResultatDAL {
 	 * Erreur à la lecture des catégories
 	 */
 	public static final int LECTURE_CATEGORIES_ECHEC = 10008;
+	/**
+	 * Erreur à la lecture des catégories
+	 */
+	public static final int LECTURE_ENCHERES_FILTRE_ECHEC = 10009;
+	/**
+	 * Erreur à la lecture des catégories
+	 */
+	public static final int LECTURE_ENCHERES_CATEGORIE_ECHEC = 10010;
+	/**
+	 * Erreur à la lecture des catégories
+	 */
+	public static final int LECTURE_ENCHERES_FILTRE_ET_CATEGORIE_ECHEC = 10011;
 }
 
 
