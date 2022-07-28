@@ -126,14 +126,14 @@ input[type=submit] {
 
 
 	<!-- Récupération des données -->
-	<label for="pseudo">Pseudo :</label>${sessionScope.majUtilisateur.pseudo}<br>
-	<label for="nom">Nom :</label>${sessionScope.majUtilisateur.nom}<br>
-	<label for="prenom">Prénom :</label>${sessionScope.majUtilisateur.prenom}<br>
-	<label for="email">Email :</label>${sessionScope.majUtilisateur.email}<br>
-	<label for="telephone">Téléphone :</label>${sessionScope.majUtilisateur.telephone}<br>
-	<label for="rue">Rue :</label>${sessionScope.majUtilisateur.rue}<br>
-	<label for="codePostal">Code postal :</label>${sessionScope.majUtilisateur.codePostal}<br>
-	<label for="ville">Ville :</label>${sessionScope.majUtilisateur.ville}<br>
+	<label for="pseudo">Pseudo :</label>${sessionScope.utilisateurConnecte.pseudo}<br>
+	<label for="nom">Nom :</label>${sessionScope.utilisateurConnecte.nom}<br>
+	<label for="prenom">Prénom :</label>${sessionScope.utilisateurConnecte.prenom}<br>
+	<label for="email">Email :</label>${sessionScope.utilisateurConnecte.email}<br>
+	<label for="telephone">Téléphone :</label>${sessionScope.utilisateurConnecte.telephone}<br>
+	<label for="rue">Rue :</label>${sessionScope.utilisateurConnecte.rue}<br>
+	<label for="codePostal">Code postal :</label>${sessionScope.utilisateurConnecte.codePostal}<br>
+	<label for="ville">Ville :</label>${sessionScope.utilisateurConnecte.ville}<br>
 
 	<!-- Boutons -->
 	<a href="<%=request.getContextPath()%>/supprimerprofil" class="bouton">Supprimer Profil</a>
