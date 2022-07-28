@@ -2,6 +2,7 @@ package fr.eni.projetenchere.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +27,7 @@ public class ServletInscription extends HttpServlet {
 	private static final int CREDIT = 1000;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp");
 		rd.forward(request, response);
@@ -41,6 +43,7 @@ public class ServletInscription extends HttpServlet {
 		
 		
 		
+		
     	int credit = CREDIT;
     	boolean admin = false;
 		//lecture pseudo
@@ -49,9 +52,6 @@ public class ServletInscription extends HttpServlet {
 		String prenom = request.getParameter("prenom");
 		String email = request.getParameter("email");
 		String telephone = request.getParameter("telephone");
-//		if(telephone==null) {
-//			telephone = "";
-//		}
 		String rue = request.getParameter("rue");
 		String code_postal = request.getParameter("code_postal");
 		String ville = request.getParameter("ville");

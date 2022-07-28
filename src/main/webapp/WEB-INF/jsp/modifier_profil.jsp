@@ -82,7 +82,7 @@ label {
 	<br>
 	<br>
 	<br>
-"${sessionScope.listeCate.items}"
+
 
 	<!-- Formulaire de modification -->
 	<div class="formulaire">
