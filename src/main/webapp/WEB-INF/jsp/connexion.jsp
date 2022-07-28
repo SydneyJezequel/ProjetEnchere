@@ -1,22 +1,14 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
-<head>
+<%@ include file="../jspf/header.jspf"%>
+
 <meta charset="UTF-8">
-<title>Bienvenue sur le site des Enchères</title>
-</head>
-<body>
+</header>
 
-
-	<h1>Bienvenue sur le site des Enchères</h1>
-
-	<h2>Donner une seconde vie à vos objets est positif pour la
-		planète et pour votre pouvoir d'achat.</h2>
-
-
-
+ 
 
 	<!-- Message de validation -->
 	<%
@@ -36,6 +28,7 @@
 			de passe : </label><input type="password" name="mp"> <input
 			type="submit" value="connecter">
 	</form>
+	
 
 
 
