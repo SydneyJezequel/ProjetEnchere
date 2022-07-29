@@ -3,7 +3,6 @@ package fr.eni.projetenchere.bo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-
 public class EnchereEnCours implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -14,10 +13,8 @@ public class EnchereEnCours implements Serializable{
 	private int prixInitial;
 	private Categorie categorie;
 	
-//	private List<Articles> encheres=new ArrayList<Articles>();
 	
-	
-	//Constructeur
+	//Constructeurs
 	public EnchereEnCours() {}
 	
 	

@@ -60,6 +60,15 @@
 		<servlet-name>VendreArticle</servlet-name>
 		<url-pattern>/vendreArticle</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ServletEncheresEnCours</servlet-name>
+		<servlet-class>fr.eni.projetenchere.servlet.ServletEncheresEnCours</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ServletEncheresEnCours</servlet-name>
+		<url-pattern>/ServletEncheresEnCours</url-pattern>
+	</servlet-mapping>
 
 
 

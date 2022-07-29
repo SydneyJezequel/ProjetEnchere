@@ -20,7 +20,7 @@ import fr.eni.projetenchere.bo.Categorie;
 /**
  * Servlet implementation class ListeEnchere
  */
-@WebServlet("/ServletEncheresEnCours")
+//@WebServlet("/ServletEncheresEnCours")
 public class ServletEncheresEnCours extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,19 +30,20 @@ public class ServletEncheresEnCours extends HttpServlet {
 	 * @Etapes Appelle la méthode afficherCategories pour transmettre à la jsp accueil la liste des catégories
 	 * Cette méthode fait appel à une fonctions d'EnchereEnCoursManager :selectionnerTout
 	 * qui permet d'interroger la BDD au travers de la DAL pour récupérer toutes les enchères en cours.
-	 * @throws ServletException, IOException : Les exceptions sont propagées depuis la classe
-	 *                      EnchereEnCoursDAOJdbcImpl.
+	 * @throws ServletException, IOException : Les exceptions sont propagées depuis la classe EnchereEnCoursDAOJdbcImpl.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		afficherCategories(request);
-
+		
 		try {
-				request.setAttribute("listeEncheres", EnchereEnCoursManager.getInstance().selectionnerTout());
+			request.setAttribute("listeEncheres", EnchereEnCoursManager.getInstance().selectionnerTout());
 		} catch (BusinessException | SQLException e) {
 			e.printStackTrace();
-//			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
+			request.setAttribute("listeCodesErreur",((BusinessException) e).getListeCodesErreur());
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp");
+			rd.forward(request, response);
 		}
 		RequestDispatcher rd = request.getRequestDispatcher("/accueil");
 		rd.forward(request, response);
@@ -53,12 +54,9 @@ public class ServletEncheresEnCours extends HttpServlet {
 	 * @param request et response
 	 * @Etapes Appelle la méthode afficherCategories pour transmettre à la jsp accueil la liste des catégories
 	 * Ensuite, en fonction des choix de l'utilisateur, on fait appel à 4 fonctions d'EnchereEnCoursManager :
-	 * selectionnerCategorie
-	 * selectionnerFiltre
-	 * selectionnerFiltreEtCategorie
+	 * selectionnerCategorie, selectionnerFiltre, selectionnerFiltreEtCategorie
 	 * Ces fonctions permettent d'interroger la BDD au travers de la DAL pour filtrer les informations sur les enchères en cours.
-	 * @throws ServletException, IOException : Les exceptions sont propagées depuis la classe
-	 *                      EnchereEnCoursDAOJdbcImpl.
+	 * @throws ServletException, IOException : Les exceptions sont propagées depuis la classe EnchereEnCoursDAOJdbcImpl.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -76,8 +74,16 @@ public class ServletEncheresEnCours extends HttpServlet {
 		}
 
 		//lecture filtre et numéro de catégorie
-    	String filtre = request.getParameter("srecherche");
-    	int noCategorie = Integer.parseInt(request.getParameter("scategorie"));
+		String filtre ="";
+		if(request.getParameter("srecherche")!=null) {
+			filtre = request.getParameter("srecherche");
+		}
+		int noCategorie =0;
+		if(request.getParameter("scategorie")!=null) {
+			noCategorie = Integer.parseInt(request.getParameter("scategorie"));
+		} 
+
+//    	int noCategorie = Integer.parseInt(request.getParameter("scategorie"));
 		
     	// affichages des articles en vente si le filtre n'est pas renseigné pour la recherche même avec le nom incomplet
 		if(filtre =="") {
@@ -92,6 +98,9 @@ public class ServletEncheresEnCours extends HttpServlet {
 					request.setAttribute("listeEncheres", EnchereEnCoursManager.getInstance().selectionnerCategorie(noCategorie));
 				} catch (BusinessException | SQLException e) {
 					e.printStackTrace();
+					request.setAttribute("listeCodesErreur",((BusinessException) e).getListeCodesErreur());
+					RequestDispatcher rd = request.getRequestDispatcher("/accueil");
+					rd.forward(request, response);
 				}
 			}
 	    	
@@ -101,10 +110,11 @@ public class ServletEncheresEnCours extends HttpServlet {
 			if(!idCategories.contains(noCategorie)) {
 				try {
 					request.setAttribute("listeEncheres", EnchereEnCoursManager.getInstance().selectionnerFiltre(filtre));
-				} catch (BusinessException e) {
+				} catch (BusinessException | SQLException e) {
 					e.printStackTrace();
-				} catch (SQLException e) {
-					e.printStackTrace();
+					request.setAttribute("listeCodesErreur",((BusinessException) e).getListeCodesErreur());
+					RequestDispatcher rd = request.getRequestDispatcher("/accueil");
+					rd.forward(request, response);
 				}
 			// affichage des articles en filtrant par une catégorie
 			} else {
@@ -112,8 +122,10 @@ public class ServletEncheresEnCours extends HttpServlet {
 				try {
 					request.setAttribute("listeEncheres", EnchereEnCoursManager.getInstance().selectionnerFiltreEtCategorie(filtre, noCategorie));
 				} catch (SQLException | BusinessException e) {
-//					request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
 					e.printStackTrace();
+					request.setAttribute("listeCodesErreur",((BusinessException) e).getListeCodesErreur());
+					RequestDispatcher rd = request.getRequestDispatcher("/accueil");
+					rd.forward(request, response);
 				}
 			}
 		}
@@ -123,17 +135,10 @@ public class ServletEncheresEnCours extends HttpServlet {
 	}
 	
 	/**
-	 * Méthode permettant de vérifier si le mot de passe renseigné par l'utilisateur
-	 * est identique au mot de passe en BDD.
-	 * 
-	 * @param pseudo et mot de passe de l'utilisateur.
-	 * @return Renvoie true si le mdp renseigné par l'utilisateur est identique au
-	 *         mdp en BDD.
-	 * @Etapes Appelle la méthode de la DAL selectUtilisateurByPseudo(pseudo) pour
-	 *         récupérer l'utilisateur en BDD, Compare le mot de passe fournit avec
-	 *         le mot de passe en BDD, Renvoie un booléen.
-	 * @throws SQLException : Les exceptions sont propagées depuis la classe
-	 *                      UtilisateurDAOJdbcImpl.
+	 * Méthode permettant de récupérer la liste des catégories
+	 * @return une liste de cétégories
+	 * @Etapes Appelle la méthode de la DAL selectionnerCategories
+	 * @throws SQLException : Les exceptions sont propagées depuis la classe EnchereEnCoursDAOJdbcImpl.
 	 */
 	protected List<Categorie> getCategories() throws ServletException, IOException {
 		
@@ -154,7 +159,7 @@ public class ServletEncheresEnCours extends HttpServlet {
 			request.setAttribute("listeCategories", EnchereEnCoursManager.getInstance().selectionnerCategories());
 		} catch (BusinessException | SQLException e) {
 			e.printStackTrace();
-//			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
+			request.setAttribute("listeCodesErreur",((BusinessException) e).getListeCodesErreur());
 		}
 	}
 
