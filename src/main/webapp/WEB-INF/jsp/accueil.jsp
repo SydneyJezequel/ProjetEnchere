@@ -98,7 +98,7 @@
 		</c:forEach>
 	</c:when>
     <c:otherwise>
-       	<p>Pas d'enchères actuellement.<p>
+       	<p>Pas d'enchères en cours actuellement ou avec cette recherche.<p>
     </c:otherwise>
 </c:choose>
 		

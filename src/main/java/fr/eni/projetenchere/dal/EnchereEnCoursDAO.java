@@ -9,12 +9,11 @@ import fr.eni.projetenchere.bo.EnchereEnCours;
 
 public interface EnchereEnCoursDAO {
 	
-	public List<EnchereEnCours> selectAll() throws SQLException, BusinessException;
-
-	public EnchereEnCours selectById(int noCategorie);
 
 	public List<Categorie> selectCategories() throws BusinessException;
 
+	public List<EnchereEnCours> selectAll() throws SQLException, BusinessException;
+	
 	public List<EnchereEnCours> selectByFilter(String filtre) throws BusinessException;
 
 	public List<EnchereEnCours> selectByCategorie(int noCategorie) throws BusinessException;

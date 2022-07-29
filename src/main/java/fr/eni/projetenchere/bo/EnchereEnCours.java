@@ -13,7 +13,6 @@ public class EnchereEnCours implements Serializable{
 	private int prixInitial;
 	private Categorie categorie;
 	
-	
 	//Constructeurs
 	public EnchereEnCours() {}
 	
@@ -24,9 +23,7 @@ public class EnchereEnCours implements Serializable{
 	setNomArticle(nomArticle);
 	setDateFinEncheres(dateFinEncheres);
 	setPrixInitial(prixInitial);
-	
 	}
-	
 	
 	//Autres méhodes
 	@Override
@@ -34,20 +31,8 @@ public class EnchereEnCours implements Serializable{
 		return "EnchereEnCours [pseudo=" + pseudo + ", nomArticle=" + nomArticle + ", dateFinEncheres="
 				+ dateFinEncheres + ", prixInitial=" + prixInitial + ", categorie=" + categorie + "]";
 	}
-	
 
-
-
-
-
-
-
-
-
-
-
-
-	//Getter et Setter
+	//Getters et Setters
 	public String getPseudo() {
 		return pseudo;
 	}
@@ -87,7 +72,5 @@ public class EnchereEnCours implements Serializable{
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
-	
-	
 	
 }

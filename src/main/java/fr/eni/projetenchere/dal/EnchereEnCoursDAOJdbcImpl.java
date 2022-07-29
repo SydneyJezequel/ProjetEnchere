@@ -36,15 +36,38 @@ public class EnchereEnCoursDAOJdbcImpl implements EnchereEnCoursDAO {
 			"INNER JOIN Categories c ON a.no_categorie = c.no_categorie " +
 			"WHERE c.no_categorie = ? AND a.nom_article LIKE ? " + 
 			"ORDER BY a.date_fin_encheres DESC";
+
 	
-
-
+	@Override
+	public List<Categorie> selectCategories() throws BusinessException {
+		List<Categorie> listeCategories = new ArrayList<Categorie>();
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_CATEGORIE);
+			ResultSet rs = pstmt.executeQuery();
+			Categorie categorie=null;
+			while(rs.next())
+			{
+				categorie = new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"));
+				listeCategories.add(categorie);
+				System.out.println(categorie);
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_CATEGORIES_ECHEC);
+			throw businessException;
+		}
+		return listeCategories;
+	}
 
 	@Override
 	public List<EnchereEnCours> selectAll() throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 		
-	
 			List<EnchereEnCours> listeEncheres = new ArrayList<EnchereEnCours>();
 			try(Connection cnx = ConnectionProvider.getConnection())
 			{
@@ -73,45 +96,7 @@ public class EnchereEnCoursDAOJdbcImpl implements EnchereEnCoursDAO {
 		}
 		
 
-
-
-	@Override
-	public List<Categorie> selectCategories() throws BusinessException {
-		List<Categorie> listeCategories = new ArrayList<Categorie>();
-		try(Connection cnx = ConnectionProvider.getConnection())
-		{
-			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_CATEGORIE);
-			ResultSet rs = pstmt.executeQuery();
-			Categorie categorie=null;
-			while(rs.next())
-			{
-				categorie = new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"));
-				listeCategories.add(categorie);
-				System.out.println(categorie);
-				
-			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.LECTURE_CATEGORIES_ECHEC);
-			throw businessException;
-		}
-		return listeCategories;
 	
-		
-	}
-
-	@Override
-	public EnchereEnCours selectById(int noCategorie) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
 	@Override
 	public List<EnchereEnCours> selectByFilter(String filtre) throws BusinessException {
 		List<EnchereEnCours> listeEncheres = new ArrayList<EnchereEnCours>();

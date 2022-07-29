@@ -37,13 +37,13 @@ public class EnchereEnCoursManager implements Serializable {
 	private EnchereEnCoursManager() {}
 	
 	// Méthodes
+	public List<Categorie> selectionnerCategories() throws BusinessException {
+		return DAOFactory.getListeEncheresDAO().selectCategories();
+	}
+	
 	public List<EnchereEnCours> selectionnerTout() throws BusinessException, SQLException
 	{
 		return DAOFactory.getListeEncheresDAO().selectAll();
-	}
-	
-	public List<Categorie> selectionnerCategories() throws BusinessException {
-		return DAOFactory.getListeEncheresDAO().selectCategories();
 	}
 	
 	public List<EnchereEnCours> selectionnerCategorie(int noCategorie) throws BusinessException {
